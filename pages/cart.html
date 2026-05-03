@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Bag | monthrob.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --beige: #F5F5F0;
+        --black: #0F0F0F;
+        --white: #FFFFFF;
+        --gray: #F9F9F9;
+        --sage: #7B8C7C;
+        --border-color: #E2E2E2;
+        --transition: 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--gray);
+        color: var(--black);
+        overflow-x: hidden;
+        padding-bottom: 180px !important; /* Space for both mobile nav and sticky checkout */
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* --- HEADER --- */
+      .navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color, #E2E2E2);
+      }
+
+      .nav-title {
+        font-weight: 800;
+        font-size: 20px;
+        letter-spacing: -0.5px;
+      }
+
+      .nav-right-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #777;
+        cursor: pointer;
+      }
+
+      /* --- CART CONTAINER --- */
+      .cart-container {
+        margin-top: 80px;
+        padding: 20px;
+      }
+
+      /* --- CART ITEMS --- */
+      .cart-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .cart-item {
+        background: var(--white);
+        border-radius: 16px;
+        padding: 15px;
+        display: flex;
+        gap: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+      }
+
+      .item-img {
+        width: 90px;
+        height: 110px;
+        border-radius: 10px;
+        background: #eee;
+        overflow: hidden;
+      }
+
+      .item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .item-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .item-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .item-meta {
+        font-size: 12px;
+        color: #777;
+      }
+
+      .btn-remove {
+        color: #ccc;
+        font-size: 20px;
+        cursor: pointer;
+        transition: color var(--transition);
+      }
+      .btn-remove:hover {
+        color: #e74c3c;
+      }
+
+      .item-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+      }
+
+      .item-price {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      /* Quantity Control */
+      .qty-control {
+        display: flex;
+        align-items: center;
+        background: var(--gray);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .qty-btn {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: var(--black);
+      }
+
+      .qty-val {
+        width: 25px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      /* --- ORDER SUMMARY --- */
+      .order-summary {
+        margin-top: 30px;
+        background: var(--white);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+      }
+
+      .summary-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .summary-row.total {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px dashed var(--dark-gray);
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--black);
+        margin-bottom: 0;
+      }
+
+      /* --- STICKY CHECKOUT BAR --- */
+      .sticky-checkout-bar {
+        position: fixed;
+        bottom: 70px; /* Aligns precisely onto the mobile navbar */
+        left: 0;
+        width: 100%;
+        padding: 15px 20px;
+        background: var(--beige); 
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 999;
+      }
+
+      @media (min-width: 768px) {
+        .sticky-checkout-bar {
+          bottom: 0;
+          padding: 20px 40px;
+        }
+      }
+
+      .checkout-total {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .checkout-total-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #666;
+      }
+
+      .checkout-total-val {
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      .btn-checkout {
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        padding: 14px 25px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn-checkout:hover {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <i class="bx bx-arrow-back" style="font-size: 26px; cursor: pointer;" onclick="history.back()"></i>
+      </div>
+      <div class="nav-title">My Bag</div>
+      <div class="nav-right-text" onclick="localStorage.removeItem('monthrob_cart'); renderCart();">Clear</div>
+    </nav>
+
+    <main class="cart-container">
+      
+      <!-- Cart Items -->
+      <div class="cart-list">
+        <!-- Dynamic Content -->
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <div class="summary-title">Order Summary</div>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>Rs. 0</span>
+        </div>
+        <div class="summary-row">
+          <span>Standard Shipping</span>
+          <span>Free</span>
+        </div>
+        <div class="summary-row">
+          <span>Discount (None)</span>
+          <span>Rs. 0</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>Rs. 0</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sticky Checkout Bar -->
+    <div class="sticky-checkout-bar">
+      <div class="checkout-total">
+        <span class="checkout-total-label">Subtotal</span>
+        <span class="checkout-total-val">Rs. 0</span>
+      </div>
+      <button class="btn-checkout" onclick="validateCheckout()">Checkout <i class='bx bx-right-arrow-alt'></i></button>
+    </div>
+
+    <!-- Footer Container -->
+    <div id="footerContainer"></div>
+
+    <!-- Bottom Nav Container (Injected via JS) -->
+    <div id="bottomNavContainer"></div>
+
+    <script src="./mock-db.js"></script>
+    <script>
+      function validateCheckout() {
+        const cart = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+        if (cart.length === 0) {
+          alert("Your bag is empty! Please add some items before checking out.");
+          return;
+        }
+        window.location.href = 'checkout.html';
+      }
+      document.addEventListener("DOMContentLoaded", async () => {
+        // --- Fetch Real Prices & Validate ---
+        try {
+          const cart = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+          if (cart.length > 0) {
+            const products = await monthrob_DB.get('products');
+            const updatedCart = cart.map(item => {
+              const realP = products.find(p => p._id === item.productId);
+              if (realP) {
+                item.price = realP.sellingPrice; // Sync price
+                item.name = realP.name;
+              }
+              return item;
+            });
+            localStorage.setItem('monthrob_cart', JSON.stringify(updatedCart));
+          }
+        } catch (err) { console.error('Cart Validation Error:', err); }
+
+        renderCart();
+        loadComponent('./navbar.html', 'bottomNavContainer', () => {
+          setTimeout(() => {
+            const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const cartTab = document.getElementById('nav-cart');
+            if (cartTab) cartTab.classList.add('active');
+          }, 50);
+        });
+        loadComponent('./footer.html', 'footerContainer');
+      });
+
+      function renderCart() {
+        const cart = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+        const cartList = document.querySelector('.cart-list');
+        const summaryRows = document.querySelectorAll('.summary-row span:last-child');
+        const stickyTotal = document.querySelector('.checkout-total-val');
+        
+        if (cart.length === 0) {
+          cartList.innerHTML = '<p style="text-align:center; padding:40px; color:#999;">Your bag is empty.</p>';
+          summaryRows[0].innerText = 'Rs. 0';
+          summaryRows[3].innerText = 'Rs. 0';
+          stickyTotal.innerText = 'Rs. 0';
+          return;
+        }
+
+        let total = 0;
+        let html = '';
+
+        cart.forEach((item, index) => {
+          total += (item.price * item.qty);
+          html += `
+            <div class="cart-item">
+              <div class="item-img">
+                <img src="${item.image || '../assets/test_product/ChatGPT Image Mar 18, 2026, 01_43_11 PM.png'}" alt="${item.name}">
+              </div>
+              <div class="item-details">
+                <div class="item-header">
+                  <div>
+                    <div class="item-title">${item.name}</div>
+                    <div class="item-meta">Color: ${item.color} | Size: ${item.size}</div>
+                  </div>
+                  <i class="bx bx-trash btn-remove" onclick="removeItem(${index})"></i>
+                </div>
+                <div class="item-footer">
+                  <div class="item-price">Rs. ${item.price.toLocaleString()}</div>
+                  <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                    <div class="qty-val">${item.qty}</div>
+                    <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        const shipping = total < 5000 ? 40 : 0;
+        const grandTotal = total + shipping;
+
+        cartList.innerHTML = html;
+        summaryRows[0].innerText = `Rs. ${total.toLocaleString()}`;
+        summaryRows[1].innerText = shipping === 0 ? 'Free' : `Rs. ${shipping}`;
+        summaryRows[3].innerText = `Rs. ${grandTotal.toLocaleString()}`;
+        stickyTotal.innerText = `Rs. ${grandTotal.toLocaleString()}`;
+      }
+
+      function updateQty(index, delta) {
+        const cart = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+        cart[index].qty = Math.max(1, cart[index].qty + delta);
+        localStorage.setItem('monthrob_cart', JSON.stringify(cart));
+        renderCart();
+      }
+
+      function removeItem(index) {
+        if(confirm("Remove this item?")) {
+          const cart = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+          cart.splice(index, 1);
+          localStorage.setItem('monthrob_cart', JSON.stringify(cart));
+          renderCart();
+        }
+      }
+
+      async function loadComponent(url, containerId, callback) {
+        try {
+          const res = await fetch(url);
+          const html = await res.text();
+          const container = document.getElementById(containerId);
+          if (container) {
+            container.innerHTML = html;
+            container.querySelectorAll('script').forEach(s => {
+              const ns = document.createElement('script');
+              ns.textContent = s.textContent;
+              document.body.appendChild(ns);
+            });
+            if (callback) callback(html);
+          }
+        } catch (err) { console.error(`Error loading component ${url}:`, err); }
+      }
+    </script>
+  </body>
+</html>
+
+
+
+
+

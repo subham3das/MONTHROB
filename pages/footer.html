@@ -1,0 +1,364 @@
+<style>  
+  :root {
+    --footer-bg: #0A0A0A;
+    --footer-text: #FBFBFB;
+    --footer-muted: #888888;
+    --footer-accent: #7B8C7C; /* Sage from project vars */
+    --footer-border: rgba(255, 255, 255, 0.08);
+    --footer-transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .zg-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 80px 30px 40px;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  @media (max-width: 992px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 50px;
+      text-align: center;
+    }
+  }
+
+  .footer-col h4 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    color: var(--footer-text);
+  }
+
+  .footer-brand .footer-logo { text-transform: lowercase;   
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    display: inline-block;
+    letter-spacing: -1px;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--footer-muted);
+    margin-bottom: 30px;
+    max-width: 280px;
+  }
+
+  @media (max-width: 576px) {
+    .footer-brand p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 15px;
+  }
+
+  @media (max-width: 576px) {
+    .footer-socials {
+      justify-content: center;
+    }
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--footer-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--footer-text);
+    text-decoration: none;
+    transition: var(--footer-transition);
+  }
+
+  .social-icon:hover {
+    background: var(--footer-text);
+    color: var(--footer-bg);
+    transform: translateY(-5px);
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+
+  .footer-links a {
+    color: var(--footer-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--footer-transition);
+  }
+
+  .footer-links a:hover {
+    color: var(--footer-text);
+    padding-left: 5px;
+  }
+
+  .footer-newsletter p {
+    font-size: 14px;
+    color: var(--footer-muted);
+    margin-bottom: 20px;
+  }
+
+  .newsletter-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .newsletter-form input {
+    width: 100%;
+    background: var(--footer-border);
+    border: 1px solid transparent;
+    padding: 15px 20px;
+    border-radius: 12px;
+    color: var(--footer-text);
+    font-size: 14px;
+    outline: none;
+    transition: var(--footer-transition);
+  }
+
+  .newsletter-form input:focus {
+    border-color: var(--footer-accent);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .newsletter-btn {
+    background: var(--footer-text);
+    color: var(--footer-bg);
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--footer-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .newsletter-btn:hover {
+    background: var(--footer-accent);
+    color: white;
+  }
+
+  .newsletter-msg {
+    font-size: 12px;
+    margin-top: 10px;
+    min-height: 18px;
+    transition: var(--footer-transition);
+    opacity: 0;
+  }
+
+  .newsletter-msg.success { color: #4CAF50; opacity: 1; }
+  .newsletter-msg.error { color: #FF5252; opacity: 1; }
+
+  /* Bottom Bar */
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 40px;
+    border-top: 1px solid var(--footer-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .footer-bottom {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+  }
+
+  .copyright {
+    font-size: 12px;
+    color: var(--footer-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .payment-methods {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    opacity: 0.6;
+  }
+
+  .payment-methods i {
+    font-size: 24px;
+    transition: var(--footer-transition);
+  }
+
+  .payment-methods i:hover {
+    opacity: 1;
+    color: var(--footer-text);
+  }
+
+  .legal-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .legal-links a {
+    font-size: 12px;
+    color: var(--footer-muted);
+    text-decoration: none;
+    transition: var(--footer-transition);
+  }
+
+  .legal-links a:hover {
+    color: var(--footer-text);
+  }
+</style>
+
+<footer class="zg-footer">
+  <div class="footer-grid">
+    <!-- Brand Section -->
+    <div class="footer-col footer-brand">
+      <div class="footer-logo">
+        <img src="logo.png" alt="Monthrob" style="height: 40px; width: auto; filter: brightness(0) invert(1);">
+      </div>
+      <p>Elevating everyday streetwear with premium craftsmanship and a touch of the extraordinary. Precise designs for the modern minimalist.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-icon"><i class='bx bxl-instagram'></i></a>
+        <a href="#" class="social-icon"><i class='bx bxl-tiktok'></i></a>
+        <a href="#" class="social-icon"><i class='bx bxl-twitter'></i></a>
+        <a href="#" class="social-icon"><i class='bx bxl-pinterest'></i></a>
+      </div>
+    </div>
+
+    <!-- Shop Section -->
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul class="footer-links">
+        <li><a href="collections.html">All Collections</a></li>
+        <li><a href="shop.html?collection=Winter">New Arrivals</a></li>
+        <li><a href="shop.html?collection=Limited">Limited Edition</a></li>
+        <li><a href="shop.html?category=Accessories">Accessories</a></li>
+      </ul>
+    </div>
+
+    <!-- Support Section -->
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul class="footer-links">
+        <li><a href="all-orders.html">Track Order</a></li>
+        <li><a href="shipping-policy.html">Shipping Policy</a></li>
+        <li><a href="return-policy.html">Returns & Exchanges</a></li>
+        <li><a href="faq.html">FAQs</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="footer-col footer-newsletter">
+      <h4>Join the Circle</h4>
+      <p>Subscribe to receive early access to drops and exclusive content.</p>
+      <form class="newsletter-form" id="newsletterForm">
+        <div class="input-wrapper">
+          <input type="email" placeholder="your@email.com" required id="newsletterEmail">
+        </div>
+        <button type="submit" class="newsletter-btn">
+          <span>Subscribe</span>
+          <i class='bx bx-right-arrow-alt'></i>
+        </button>
+        <div class="newsletter-msg" id="newsletterMsg"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="copyright">
+      &copy; 2026 monthrob.in. ALL RIGHTS RESERVED.
+    </div>
+
+    <div class="payment-methods">
+      <i class='bx bxl-visa'></i>
+      <i class='bx bxl-mastercard'></i>
+      <i class='bx bx-credit-card'></i>
+      <i class='bx bx-mobile-vibration'></i> <!-- UPI/Mobile Payment Placeholder -->
+    </div>
+
+    <div class="legal-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const form = document.getElementById('newsletterForm');
+    const msg = document.getElementById('newsletterMsg');
+    const btn = form.querySelector('.newsletter-btn');
+    const btnText = btn.querySelector('span');
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Visual feedback
+        btnText.textContent = 'Joining...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+          msg.textContent = "Welcome to the Inner Circle.";
+          msg.className = "newsletter-msg success";
+          btnText.textContent = 'Subscribed';
+          form.querySelector('input').value = '';
+          
+          setTimeout(() => {
+            msg.style.opacity = '0';
+            btnText.textContent = 'Subscribe';
+            btn.disabled = false;
+          }, 3000);
+        }, 1200);
+      });
+    }
+  })();
+</script>
+
+
+
+
+
+
+

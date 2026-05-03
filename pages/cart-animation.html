@@ -1,0 +1,93 @@
+<style>
+  .fly-to-cart-clone {
+    position: fixed;
+    z-index: 9999;
+    background: var(--black, #000);
+    border-radius: 12px;
+    object-fit: cover;
+    transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  }
+
+  @keyframes cartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Use !important to override the opacity/transitions temporarily */
+  .cart-pulsate {
+    animation: cartPulse 0.4s ease forwards !important;
+    color: var(--black, #000) !important;
+    opacity: 1 !important;
+  }
+</style>
+
+<script>
+  window.triggerAddToCartAnimation = function(sourceElementSelector, targetElementSelector) {
+    let startEl = document.querySelector(sourceElementSelector);
+    let targetEl = document.querySelector(targetElementSelector);
+
+    if (!startEl || !targetEl) {
+        console.warn('Cart animation failed: Missing start or target elements.', startEl, targetEl);
+        return;
+    }
+
+    const startRect = startEl.getBoundingClientRect();
+    const endRect = targetEl.getBoundingClientRect();
+
+    // Create Flyer Image
+    let imgSrc = '';
+    if (startEl.tagName.toLowerCase() === 'img') {
+        imgSrc = startEl.src;
+    } else if (startEl.querySelector('img')) {
+        imgSrc = startEl.querySelector('img').src;
+    }
+
+    const flyer = document.createElement(imgSrc ? 'img' : 'div');
+    flyer.classList.add('fly-to-cart-clone');
+    if (imgSrc) flyer.src = imgSrc;
+
+    // Init Size & Pos (Starts at original image size/position)
+    flyer.style.left = `${startRect.left}px`;
+    flyer.style.top = `${startRect.top}px`;
+    flyer.style.width = `${startRect.width}px`;
+    flyer.style.height = `${startRect.height}px`;
+
+    document.body.appendChild(flyer);
+
+    // Force Reflow
+    flyer.offsetHeight;
+
+    // End Pos (Center of the target cart icon)
+    const targetX = endRect.left + (endRect.width / 2) - 15;
+    const targetY = endRect.top + (endRect.height / 2) - 15;
+
+    // Travel to target and morph into a tiny dot
+    flyer.style.left = `${targetX}px`;
+    flyer.style.top = `${targetY}px`;
+    flyer.style.width = '30px';
+    flyer.style.height = '30px';
+    flyer.style.opacity = '0.3';
+    flyer.style.borderRadius = '50%'; 
+
+    // Once arrived, Clean up and Pulse Target
+    setTimeout(() => {
+        flyer.remove();
+        
+        let icon = targetEl.tagName.toLowerCase() === 'i' ? targetEl : targetEl.querySelector('i');
+        if(!icon) icon = targetEl; // fallback
+
+        icon.classList.add('cart-pulsate');
+        // also add a little badge class to target element if wanted
+        
+        setTimeout(() => icon.classList.remove('cart-pulsate'), 400);
+    }, 700); // 0.7s matching CSS transition
+  };
+</script>
+
+
+
+
+

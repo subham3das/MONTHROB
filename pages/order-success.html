@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed | monthrob.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --beige: #F5F5F0;
+        --black: #0F0F0F;
+        --white: #FFFFFF;
+        --gray: #F9F9F9;
+        --sage: #7B8C7C;
+        --border-color: #E2E2E2;
+        --accent: var(--sage);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--white);
+        color: var(--black);
+        padding: 40px 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* --- SUCCESS HEADER --- */
+      .success-header {
+        text-align: center;
+        margin-bottom: 40px;
+        animation: fadeInDown 0.8s ease;
+      }
+
+      @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--black);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+
+      .success-header h1 {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -1px;
+        margin-bottom: 8px;
+      }
+
+      .success-header p {
+        font-size: 14px;
+        color: #777;
+        font-weight: 600;
+      }
+
+      /* --- BOUTIQUE INVOICE --- */
+      .invoice-container {
+        width: 100%;
+        max-width: 450px;
+        background: var(--beige);
+        border: 1px solid var(--border-color);
+        padding: 40px;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+        animation: fadeInUp 0.8s ease 0.2s backwards;
+      }
+
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Jagged Receipt Edge Bottom */
+      .invoice-container::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 0;
+        width: 100%;
+        height: 15px;
+        background: radial-gradient(circle, transparent, transparent 50%, var(--beige) 50%, var(--beige) 100%) -7px 0 / 14px 28px repeat-x;
+      }
+
+      .invoice-brand {
+        text-align: center;
+        border-bottom: 1px dashed var(--border-color);
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+      }
+
+      .invoice-brand h2 {
+        font-size: 32px;
+        font-weight: 900;
+        letter-spacing: -2px;
+      }
+
+      .invoice-brand p {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0.6;
+      }
+
+      .invoice-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #888;
+      }
+
+      .invoice-items {
+        margin-bottom: 30px;
+      }
+
+      .invoice-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .invoice-item .qty {
+        color: #aaa;
+        margin-right: 10px;
+      }
+
+      .invoice-totals {
+        border-top: 1px dashed var(--border-color);
+        padding-top: 20px;
+      }
+
+      .invoice-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #777;
+      }
+
+      .invoice-row.grand-total {
+        margin-top: 10px;
+        color: var(--black);
+        font-weight: 900;
+        font-size: 22px;
+      }
+
+      .delivery-info {
+        margin-top: 40px;
+        padding: 20px;
+        background: rgba(46, 140, 74, 0.05);
+        border: 1px solid rgba(46, 140, 74, 0.1);
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .delivery-info i {
+        font-size: 24px;
+        color: var(--accent);
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .delivery-info span {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      /* --- ACTIONS --- */
+      .action-btns {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        max-width: 450px;
+      }
+
+      .btn-download {
+        width: 100%;
+        padding: 16px;
+        background: var(--white);
+        border: 1.5px solid var(--black);
+        color: var(--black);
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn-home {
+        width: 100%;
+        padding: 16px;
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      /* Hide for Print */
+      @media print {
+        .success-header, .action-btns, .delivery-info {
+          display: none;
+        }
+        body {
+          background: #fff;
+          padding: 0;
+        }
+        .invoice-container {
+          box-shadow: none;
+          max-width: 100%;
+          border: none;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <header class="success-header">
+      <div class="success-icon"><i class='bx bx-check'></i></div>
+      <h1>Order Placed</h1>
+      <p>Thank you for choosing monthrob.</p>
+    </header>
+
+    <div class="invoice-container" id="printableInvoice">
+      <div class="invoice-brand">
+        <h2><span style="color: #E53935;">mon</span>throb</h2>
+        <p>Premium Streetwear Receipt</p>
+      </div>
+
+      <div class="invoice-meta">
+        <span id="orderId">ID: Loading...</span>
+        <span id="orderDate">Date: ...</span>
+      </div>
+
+      <div class="invoice-items" id="invoiceItems">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="invoice-totals">
+        <div class="invoice-row">
+          <span>Subtotal</span>
+          <span id="invoiceSubtotal">Rs. 0</span>
+        </div>
+        <div class="invoice-row">
+          <span>Shipping</span>
+          <span>FREE</span>
+        </div>
+        <div class="invoice-row" id="invoiceDiscountRow" style="display: none; color: #2e8c4a; font-weight: 700;">
+          <span>Promo Applied</span>
+          <span id="invoiceDiscount"></span>
+        </div>
+        <div class="invoice-row">
+          <span>Payment Method</span>
+          <span id="invoicePaymentMethod">...</span>
+        </div>
+        <div class="invoice-row grand-total">
+          <span id="invoiceTotalLabel">Grand Total</span>
+          <span id="invoiceTotal">Rs. 0</span>
+        </div>
+      </div>
+
+      <div class="delivery-info">
+        <i class='bx bx-time-five'></i>
+        <span>Est. Delivery: April 14, 2026</span>
+      </div>
+    </div>
+
+    <div class="action-btns">
+      <button class="btn-download" onclick="window.print()">
+        <i class='bx bx-download' ></i> Download Digital Invoice
+      </button>
+      <a href="home.html" class="btn-home">Continue Shopping</a>
+    </div>
+
+    <!-- Footer Container -->
+    <div id="footerContainer" style="width: 100%; margin-top: 80px;"></div>
+
+    <script src="../backend/api/mock-db.js"></script>
+    <script>
+      async function loadOrder() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+        if (!orderId) {
+          document.getElementById('orderId').innerText = "ID: Unknown";
+          return;
+        }
+
+        try {
+          const orders = await monthrob_DB.get('orders');
+          const order = orders.find(o => o.id === orderId);
+
+          if (order) {
+            document.getElementById('orderId').innerText = "ID: " + order.id;
+            
+            // Set Date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateObj = order.createdAt ? new Date(order.createdAt) : new Date();
+            document.getElementById('orderDate').innerText = "Date: " + dateObj.toLocaleDateString('en-US', options);
+
+            // Populate Items
+            const itemsContainer = document.getElementById('invoiceItems');
+            itemsContainer.innerHTML = order.items.map(item => `
+              <div class="invoice-item">
+                <span><span class="qty">${item.qty}x</span> ${item.name} (${item.color})</span>
+                <span>Rs. ${item.price * item.qty}</span>
+              </div>
+            `).join('');
+
+            // Subtotal & Discount logic
+            const subtotal = order.subtotal || order.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('invoiceSubtotal').innerText = "Rs. " + subtotal.toLocaleString();
+            
+            if(order.discount && order.discount > 0) {
+                 document.getElementById('invoiceDiscountRow').style.display = 'flex';
+                 document.getElementById('invoiceDiscount').innerHTML = `(${order.couponCode || 'PROMO'}) -Rs. ${order.discount.toLocaleString()}`;
+            }
+
+            document.getElementById('invoicePaymentMethod').innerText = order.paymentMethod || 'Cash on Delivery';
+            
+            const totalLbl = document.getElementById('invoiceTotalLabel');
+            if(order.paymentStatus === 'Pending') {
+                totalLbl.innerText = 'Total Outstanding (COD)';
+            } else {
+                totalLbl.innerText = 'Total Paid (Online)';
+            }
+
+            document.getElementById('invoiceTotal').innerText = "Rs. " + order.total.toLocaleString();
+
+          } else {
+            document.getElementById('orderId').innerText = "ID: " + orderId + " (Not Found)";
+          }
+        } catch (err) {
+          console.error('Order Load Error:', err);
+        }
+      }
+
+      loadOrder();
+
+      // Fetch Footer
+      fetch('./footer.html')
+        .then(response => response.text())
+        .then(html => {
+          const footerContainer = document.getElementById('footerContainer');
+          footerContainer.innerHTML = html;
+          const componentScripts = footerContainer.querySelectorAll('script');
+          componentScripts.forEach(script => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+          });
+        })
+        .catch(err => console.error('Failed to load footer', err));
+    </script>
+  </body>
+</html>
+
+
+
+
+

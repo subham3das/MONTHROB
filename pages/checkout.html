@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout | monthrob.in</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --beige: #F5F5F0;
+      --black: #0F0F0F;
+      --white: #FFFFFF;
+      --gray: #F9F9F9;
+      --sage: #7B8C7C;
+      --border-color: #E2E2E2;
+      --accent: var(--sage);
+      --transition: 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Outfit", sans-serif;
+      background-color: var(--white);
+      color: var(--black);
+      padding-bottom: 20px;
+    }
+
+    /* --- NAVBAR --- */
+    .navbar {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-title {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+    }
+
+    .container {
+      margin-top: 100px;
+      padding: 20px 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-card {
+      background: var(--beige);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* --- ADDRESS SELECTION --- */
+    .address-item {
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .address-item.active {
+      border-color: var(--black);
+      background: rgba(15, 15, 15, 0.02);
+    }
+
+    .address-item.active::after {
+      content: "\eb7b";
+      /* boxicons checkbox icon */
+      font-family: "boxicons";
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 20px;
+      color: var(--black);
+    }
+
+    .address-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .address-item p {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.4;
+    }
+
+    /* --- PRODUCT LIST --- */
+    .summary-product {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .summary-product:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .product-thumb {
+      width: 60px;
+      height: 75px;
+      border-radius: 8px;
+      background: #eee;
+      overflow: hidden;
+    }
+
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-details {
+      flex: 1;
+    }
+
+    .product-details h4 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .product-details p {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .product-price-qty {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* --- DONATION JAR --- */
+    .donation-area {
+      background: var(--black);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 25px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .donation-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .donation-input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .donation-input-container input {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: none;
+      font-family: inherit;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .btn-add-donation {
+      padding: 10px 20px;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* The Jar/Bar */
+    .jar-container {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .jar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 25%;
+      /* initial fill */
+      background: linear-gradient(90deg, var(--sage), #f5f5f0);
+      transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .jar-label {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* --- VOUCHER --- */
+    .voucher-input {
+      display: flex;
+      gap: 10px;
+    }
+
+    .voucher-input input {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      font-family: inherit;
+      background: var(--white);
+    }
+
+    /* --- PAYMENT METHODS --- */
+    .payment-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .pay-opt {
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .pay-opt.active {
+      border-color: var(--black);
+      background: rgba(15, 15, 15, 0.03);
+    }
+
+    .pay-opt i {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .pay-opt span {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* --- FINAL BILL --- */
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .bill-row.total {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px dashed var(--border-color);
+      color: var(--black);
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .btn-place-order {
+      width: 100%;
+      padding: 20px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+
+    .btn-place-order:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <i class="bx bx-left-arrow-alt" style="font-size: 26px; cursor: pointer;" onclick="history.back()"></i>
+    <span class="nav-title">Secure Checkout</span>
+    <i class="bx bx-shield-quarter" style="font-size: 22px;"></i>
+  </nav>
+
+  <main class="container">
+
+    <!-- Address Section -->
+    <section class="section-card">
+      <div class="section-title"><i class='bx bx-map-pin'></i> Shipping Address</div>
+      <div id="addressListContainer">
+        <p style="padding: 10px; color: #888;">Loading addresses...</p>
+      </div>
+    </section>
+
+    <!-- Order Summary -->
+    <section class="section-card">
+      <div class="section-title"><i class='bx bx-shopping-bag'></i> Order Summary</div>
+      <div id="orderSummaryContainer">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- Donation Jar -->
+    <section class="section-card donation-area">
+      <div class="section-title" style="color: var(--white);"><i class='bx bx-heart-circle'></i> The Collective Jar
+      </div>
+      <p class="donation-desc">
+        Your contribution transcends style. 100% of these proceeds go directly to supporting underprivileged communities
+        in our seasonal outreach. Together, we define impact.
+      </p>
+      <div class="donation-input-container">
+        <input type="number" id="donationInput" placeholder="Add a Donation (Rs.)" min="1">
+        <button class="btn-add-donation" onclick="updateDonation()">Add</button>
+      </div>
+      <div class="jar-container">
+        <div class="jar-fill" id="jarFill"></div>
+      </div>
+      <div class="jar-label">
+        <span>Community Impact</span>
+        <span id="donationDisplay">Rs. 0 Contributing</span>
+      </div>
+    </section>
+
+    <!-- Voucher -->
+    <section class="section-card">
+      <div class="section-title"><i class='bx bx-purchase-tag-alt'></i> Promo Code</div>
+      <div class="voucher-input">
+        <input type="text" id="couponInput" placeholder="Enter code (e.g. monthrobLUXURY)">
+        <button class="btn-add-donation" id="applyCouponBtn" onclick="applyCoupon()"
+          style="background: var(--black); color: var(--white);">Apply</button>
+      </div>
+      <div id="couponMessage" style="font-size: 12px; margin-top: 10px; font-weight: 600;"></div>
+    </section>
+
+    <!-- Payment Methods -->
+    <section class="section-card">
+      <div class="section-title"><i class='bx bx-credit-card'></i> Payment Method</div>
+      <div class="payment-options">
+        <div class="pay-opt active">
+          <i class='bx bxs-credit-card'></i>
+          <span>Online</span>
+        </div>
+        <div class="pay-opt">
+          <i class='bx bx-wallet'></i>
+          <span>COD</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Bill -->
+    <section class="section-card" style="margin-bottom: 0;">
+      <div class="bill-row">
+        <span>Subtotal</span>
+        <span id="billSubtotal">Rs. 0</span>
+      </div>
+      <div class="bill-row">
+        <span>Shipping Fee</span>
+        <span id="billShipping" style="color: var(--accent);">FREE</span>
+      </div>
+      <div class="bill-row" id="discountRow" style="display: none;">
+        <span>Discount</span>
+        <span id="billDiscount" style="color: #e74c3c;">-Rs. 0</span>
+      </div>
+      <div class="bill-row">
+        <span>Donation</span>
+        <span id="billDonation">Rs. 0</span>
+      </div>
+      <div class="bill-row total">
+        <span>Grand Total</span>
+        <span id="billTotal">Rs. 0</span>
+      </div>
+      <!-- Place Order -->
+      <button class="btn-place-order" onclick="placeOrder()">
+        Place Order <i class='bx bx-right-arrow-alt'></i>
+      </button>
+
+  </main>
+
+  <!-- Footer Container -->
+  <div id="footerContainer"></div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="./mock-db.js"></script>
+  <script>
+    let currentDonation = 0;
+    let currentDiscount = 0;
+    let currentCouponCode = null;
+    let baseTotal = 0;
+    let cartItems = [];
+    let userAddresses = [];
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      // --- Empty Cart Redirect ---
+      cartItems = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+      if (cartItems.length === 0) {
+        window.location.href = 'cart.html';
+        return;
+      }
+
+      try {
+        // 1. Fetch User & Addresses
+        const user = await monthrob_DB.getUser();
+        if (user && user.addresses) {
+          userAddresses = user.addresses;
+          const addrContainer = document.querySelector('.section-card:nth-of-type(1)');
+          let addrHtml = `<div class="section-title"><i class='bx bx-map-pin'></i> Shipping Address</div>`;
+
+          user.addresses.forEach((addr, idx) => {
+            addrHtml += `
+                <div class="address-item ${addr.isDefault ? 'active' : ''}" data-id="${addr._id}">
+                  <h4>${user.name} (${addr.label})</h4>
+                  <p>${addr.street}, ${addr.city}, ${addr.state} ${addr.zip}, ${addr.country}</p>
+                </div>
+              `;
+          });
+
+          addrHtml += `
+              <div class="btn-add-address" style="margin-top:10px; border: 1px dashed #ccc; padding:15px; text-align:center; border-radius:16px; cursor:pointer;" onclick="window.location.href='address-book.html'">
+                <i class='bx bx-plus-circle'></i> Add/Manage Addresses
+              </div>
+            `;
+
+          addrContainer.innerHTML = addrHtml;
+
+          // Re-attach toggles
+          document.querySelectorAll('.address-item').forEach(item => {
+            item.addEventListener('click', () => {
+              document.querySelectorAll('.address-item').forEach(a => a.classList.remove('active'));
+              item.classList.add('active');
+            });
+          });
+        }
+
+        // Initialize Payment Options Toggle
+        document.querySelectorAll('.pay-opt').forEach(opt => {
+          opt.addEventListener('click', () => {
+            document.querySelectorAll('.pay-opt').forEach(p => p.classList.remove('active'));
+            opt.classList.add('active');
+          });
+        });
+
+        // 2. Load Cart
+        cartItems = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+        renderSummary();
+
+        // 3. Pick up homepage pledge
+        const existingPledge = localStorage.getItem('monthrob_pledge');
+        if (existingPledge && parseInt(existingPledge) > 0) {
+          const input = document.getElementById('donationInput');
+          if (input) {
+            input.value = existingPledge;
+            updateDonation();
+          }
+          localStorage.removeItem('monthrob_pledge'); // Clear it so it doesn't repeatedly apply forever
+        }
+
+      } catch (err) { console.error('Checkout Load Error:', err); }
+
+      loadComponent('./footer.html', 'footerContainer');
+    });
+
+    function renderSummary() {
+      const container = document.querySelector('.section-card:nth-of-type(2)');
+      const billArea = document.querySelector('.section-card:last-of-type');
+
+      let html = `<div class="section-title"><i class='bx bx-shopping-bag' ></i> Order Summary</div>`;
+      baseTotal = 0;
+
+      cartItems.forEach(item => {
+        baseTotal += (item.price * item.qty);
+        html += `
+            <div class="summary-product">
+              <div class="product-thumb">
+                <img src="${item.image || '../assets/test_product/ChatGPT Image Mar 18, 2026, 01_43_11 PM.png'}" alt="Item">
+              </div>
+              <div class="product-details">
+                <h4>${item.name}</h4>
+                <p>Size: ${item.size} | Color: ${item.color}</p>
+                <div class="product-price-qty">
+                  <span>Qty: ${item.qty}</span>
+                  <span>Rs. ${item.price.toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+          `;
+      });
+
+      container.innerHTML = html;
+      updateTotals();
+    }
+
+    function updateDonation() {
+      const input = document.getElementById('donationInput');
+      const val = parseInt(input.value) || 0;
+      currentDonation = val;
+
+      document.getElementById('donationDisplay').innerText = `Rs. ${val} Contributing`;
+      document.getElementById('billDonation').innerText = `Rs. ${val}`;
+      updateTotals();
+
+      const fillPercent = Math.min(100, Math.max(25, (val / 1000) * 100));
+      document.getElementById('jarFill').style.width = fillPercent + "%";
+    }
+
+    async function applyCoupon() {
+      const input = document.getElementById('couponInput');
+      const msg = document.getElementById('couponMessage');
+      const btn = document.getElementById('applyCouponBtn');
+      const code = input.value.trim();
+
+      if (!code) return;
+
+      btn.innerText = 'Checking...';
+      btn.disabled = true;
+
+      try {
+        const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:5000/api'
+                    : '/api';
+
+        const res = await fetch(`${apiBase}/coupons/validate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json();
+
+        if (data.valid) {
+          const isPercent = data.type === 'percentage' || data.type === 'percent';
+          msg.innerText = `Coupon Applied! ${isPercent ? data.value + '%' : 'Rs.' + data.value} off.`;
+          msg.style.color = '#2e8c4a';
+
+          if (isPercent) {
+            currentDiscount = (baseTotal * data.value) / 100;
+          } else {
+            currentDiscount = data.value;
+          }
+          currentCouponCode = data.code;
+
+          document.getElementById('discountRow').style.display = 'flex';
+          document.getElementById('billDiscount').innerText = `-Rs. ${currentDiscount.toLocaleString()}`;
+          updateTotals();
+        } else {
+          msg.innerText = data.error || 'Invalid Coupon';
+          msg.style.color = '#e74c3c';
+          currentDiscount = 0;
+          document.getElementById('discountRow').style.display = 'none';
+          updateTotals();
+        }
+      } catch (err) {
+        msg.innerText = 'Error validating coupon';
+        msg.style.color = '#e74c3c';
+      } finally {
+        btn.innerText = 'Apply';
+        btn.disabled = false;
+      }
+    }
+
+    function updateTotals() {
+      const shipping = baseTotal < 5000 ? 40 : 0;
+      const finalAmount = Math.max(0, baseTotal - currentDiscount + currentDonation + shipping);
+      
+      document.getElementById('billTotal').innerText = `Rs. ${finalAmount.toLocaleString()}`;
+      document.getElementById('billSubtotal').innerText = `Rs. ${baseTotal.toLocaleString()}`;
+      
+      const shipEl = document.getElementById('billShipping');
+      if (shipping === 0) {
+        shipEl.innerText = 'FREE';
+        shipEl.style.color = 'var(--accent)';
+      } else {
+        shipEl.innerText = `Rs. ${shipping}`;
+        shipEl.style.color = 'var(--black)';
+      }
+    }
+
+    async function placeOrder() {
+      const btn = document.querySelector('.btn-place-order');
+      btn.innerText = 'Processing...';
+      btn.disabled = true;
+
+      // Find selected address
+      const activeAddrDiv = document.querySelector('.address-item.active');
+      if (!activeAddrDiv) {
+        alert("Please select a shipping address before placing your order.");
+        document.querySelector('.section-card:nth-of-type(1)').scrollIntoView({ behavior: 'smooth' });
+        btn.innerText = 'Place Order';
+        btn.disabled = false;
+        return;
+      }
+      const addrId = activeAddrDiv.getAttribute('data-id');
+      const selectedAddr = userAddresses.find(a => a._id === addrId);
+
+      const userStr = localStorage.getItem('monthrob_user');
+      const user = userStr ? JSON.parse(userStr) : { name: 'Guest' };
+
+      // Determine payment selection
+      const activePay = document.querySelector('.pay-opt.active span');
+      const paymentMethod = activePay && activePay.innerText === 'COD' ? 'Cash on Delivery' : 'Online Payment';
+      const paymentStatus = paymentMethod === 'Online Payment' ? 'Paid' : 'Pending';
+
+      const orderData = {
+        id: 'ZG-' + Math.floor(10000 + Math.random() * 90000),
+        customer: user.name,
+        subtotal: baseTotal,
+        total: baseTotal - currentDiscount + currentDonation,
+        discount: currentDiscount,
+        couponCode: currentCouponCode,
+        paymentMethod: paymentMethod,
+        paymentStatus: paymentStatus,
+        items: cartItems.map(i => ({
+          productId: i.productId,
+          name: i.name,
+          image: i.image,
+          price: i.price,
+          qty: i.qty,
+          color: i.color,
+          size: i.size
+        })),
+        shippingAddress: selectedAddr ? {
+          street: selectedAddr.street,
+          city: selectedAddr.city,
+          state: selectedAddr.state,
+          zip: selectedAddr.zip,
+          country: selectedAddr.country,
+          phone: selectedAddr.phone || user.phone || 'N/A',
+          email: user.email || 'N/A'
+        } : null
+      };
+
+      if (paymentMethod === 'Online Payment') {
+        try {
+          const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
+                      : '/api';
+
+          const res = await fetch(`${apiBase}/payment/create-order`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: orderData.total })
+          });
+          const order = await res.json();
+          if (order.error) throw new Error(order.error);
+
+          const options = {
+            "key": "rzp_live_SjOFaVxrASIsWa", 
+            "amount": order.amount,
+            "currency": "INR",
+            "name": "ZG Luxury Streetwear",
+            "description": "Order Payment",
+            "order_id": order.id,
+            "handler": async function (response){
+                try {
+                  const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:5000/api'
+                              : '/api';
+
+                  const verifyRes = await fetch(`${apiBase}/payment/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      razorpay_order_id: response.razorpay_order_id,
+                      razorpay_payment_id: response.razorpay_payment_id,
+                      razorpay_signature: response.razorpay_signature
+                    })
+                  });
+                  const verifyData = await verifyRes.json();
+                  if (verifyData.success) {
+                    orderData.paymentId = response.razorpay_payment_id;
+                    await monthrob_DB.addItem('orders', orderData);
+                    localStorage.removeItem('monthrob_cart');
+                    location.href = 'order-success.html?id=' + orderData.id;
+                  } else {
+                    alert("Payment verification failed!");
+                    btn.innerText = 'Place Order';
+                    btn.disabled = false;
+                  }
+                } catch(err) {
+                  alert("Payment verification failed!");
+                  btn.innerText = 'Place Order';
+                  btn.disabled = false;
+                }
+            },
+            "prefill": {
+                "name": user.name,
+                "email": user.email || "",
+                "contact": selectedAddr ? selectedAddr.phone : ""
+            },
+            "theme": {
+                "color": "#0F0F0F"
+            },
+            "modal": {
+                "ondismiss": function(){
+                    btn.innerText = 'Place Order';
+                    btn.disabled = false;
+                }
+            }
+          };
+          const rzp = new window.Razorpay(options);
+          rzp.open();
+        } catch (err) {
+          alert("Could not initialize payment: " + err.message);
+          btn.innerText = 'Place Order';
+          btn.disabled = false;
+        }
+      } else {
+        try {
+          await monthrob_DB.addItem('orders', orderData);
+          localStorage.removeItem('monthrob_cart');
+          location.href = 'order-success.html?id=' + orderData.id;
+        } catch (err) {
+          alert("Order failed!");
+          btn.innerText = 'Place Order';
+          btn.disabled = false;
+        }
+      }
+    }
+
+    async function loadComponent(url, containerId) {
+      const r = await fetch(url);
+      const html = await r.text();
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.innerHTML = html;
+        container.querySelectorAll('script').forEach(s => {
+          const ns = document.createElement('script');
+          ns.textContent = s.textContent;
+          document.body.appendChild(ns);
+        });
+      }
+    }
+
+    // Toggles
+    document.querySelectorAll('.address-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.address-item').forEach(a => a.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.pay-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.pay-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+
