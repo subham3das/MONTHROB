@@ -249,6 +249,11 @@
     <div id="bottomNavContainer"></div>
     <script src="./mock-db.js"></script>
     <script>
+      // Authentication Guard
+      if (!localStorage.getItem('monthrob_token')) {
+        window.location.href = './login.html';
+      }
+
       // Tab Switching
       const tabs = document.querySelectorAll('.tab-btn');
       const ongoingList = document.getElementById('ongoingList');
