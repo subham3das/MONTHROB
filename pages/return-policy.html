@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Returns & Exchanges | Monthrob</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --black: #0d0d0d;
+        --white: #ffffff;
+        --gray: #f5f5f5;
+        --border: #eeeeee;
+        --danger: #e74c3c;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Outfit', sans-serif;
+      }
+
+      body {
+        background-color: var(--white);
+        color: var(--black);
+        line-height: 1.6;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .policy-container {
+        max-width: 900px;
+        margin: 120px auto 80px;
+        padding: 0 30px;
+      }
+
+      .policy-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .policy-header h1 {
+        font-size: 48px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -1px;
+        margin-bottom: 10px;
+      }
+
+      .policy-header p {
+        color: #888;
+        font-size: 16px;
+      }
+
+      .policy-content section {
+        margin-bottom: 40px;
+      }
+
+      .policy-content h2 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid var(--black);
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+
+      .policy-content p {
+        margin-bottom: 15px;
+        color: #444;
+        font-size: 16px;
+      }
+
+      .warning-box {
+        background: #fff5f5;
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid #ffcfcf;
+        margin: 30px 0;
+      }
+
+      .warning-box p {
+        color: var(--danger);
+        font-weight: 700;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .video-requirement {
+        background: #f9f9f9;
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 5px solid var(--black);
+        margin: 30px 0;
+      }
+
+      .video-requirement h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 768px) {
+        .policy-header h1 {
+          font-size: 32px;
+        }
+        .policy-container {
+          margin-top: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navbar Placeholder -->
+    <div id="topNavContainer"></div>
+
+    <main class="policy-container">
+      <div class="policy-header">
+        <h1>Returns & Exchanges</h1>
+        <p>Last updated: May 3, 2026</p>
+      </div>
+
+      <div class="policy-content">
+        
+        <div class="warning-box">
+          <p>Strict No Return & No Refund Policy</p>
+        </div>
+
+        <section>
+          <h2>Overview</h2>
+          <p>At Monthrob, we maintain a very strict quality control process to ensure you receive the best products. Due to the limited nature of our drops and high demand, <strong>we do not offer returns or monetary refunds</strong> under any circumstances once an order has been delivered.</p>
+        </section>
+
+        <section>
+          <h2>Exchange Only Exception</h2>
+          <p>Exchanges are only permitted in the case of a <strong>manufacturing defect</strong> or if the product is received in <strong>severe damaged condition</strong>.</p>
+          <p>For an exchange to be considered:</p>
+          <ul>
+            <li>The product must be in its original, brand-new condition.</li>
+            <li>All tags must be attached and untampered (no tears or removal).</li>
+            <li>The fabric must not have been washed, worn, or altered.</li>
+          </ul>
+        </section>
+
+        <div class="video-requirement">
+          <h3>Mandatory Unboxing Video</h3>
+          <p>To request an exchange for a damaged item, you <strong>MUST</strong> provide a full, proper, and continuous video of you opening the brand-new parcel. </p>
+          <p><strong>Video Requirements:</strong></p>
+          <ul>
+            <li>The video must start BEFORE the parcel is opened.</li>
+            <li>The shipping label and tracking ID must be clearly visible in the video.</li>
+            <li>The video must show the entire unboxing process and the damaged area of the product in one single shot (no cuts or edits).</li>
+          </ul>
+          <p style="margin-top: 10px; color: #d32f2f;"><strong>Requests without a valid unboxing video will be automatically rejected.</strong></p>
+        </div>
+
+        <section>
+          <h2>How to Request an Exchange</h2>
+          <p>If you have met the requirements above, please contact our support team within <strong>24 hours</strong> of delivery:</p>
+          <p><strong>Email:</strong> contactmonthrob@gmail.com</p>
+          <p>Include your Order ID and attach the unboxing video. Our team will review the case and, if approved, will process the exchange for the same item (subject to availability).</p>
+        </section>
+
+        <section>
+          <h2>Size & Preference</h2>
+          <p>Please refer to our Size Chart carefully before ordering. We do not offer exchanges for size issues or changes in personal preference/mindset once the order is placed.</p>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footerContainer"></div>
+
+    <script>
+      async function injectComponent(id, url) {
+        try {
+          const resp = await fetch(url);
+          const html = await resp.text();
+          const container = document.getElementById(id);
+          container.innerHTML = html;
+
+          // Re-run scripts in injected content
+          const scripts = container.querySelectorAll('script');
+          scripts.forEach((s) => {
+            const n = document.createElement('script');
+            n.textContent = s.textContent;
+            document.body.appendChild(n);
+          });
+        } catch (e) {
+          console.error('Failed to inject ' + url, e);
+        }
+      }
+
+      window.onload = async () => {
+        await Promise.all([
+          injectComponent('topNavContainer', './top-navbar.html'),
+          injectComponent('footerContainer', './footer.html')
+        ]);
+        document.body.style.opacity = '1';
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Orders | monthrob.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --beige: #F5F5F0;
+        --black: #0F0F0F;
+        --white: #FFFFFF;
+        --gray: #F9F9F9;
+        --sage: #7B8C7C;
+        --border-color: #E2E2E2;
+        --transition: 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--white);
+        color: var(--black);
+        padding-bottom: 100px;
+      }
+
+      /* --- NAVBAR --- */
+      .navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px;
+        background: rgba(245, 245, 220, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .nav-title {
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: -0.5px;
+      }
+
+      /* --- TABS --- */
+      .tabs-container {
+        margin-top: 80px;
+        padding: 20px 20px 10px;
+        display: flex;
+        gap: 15px;
+        position: sticky;
+        top: 70px;
+        background: var(--white);
+        z-index: 999;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--beige);
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .tab-btn.active {
+        background: var(--black);
+        color: var(--white);
+        border-color: var(--black);
+      }
+
+      /* --- ORDER LIST --- */
+      .orders-container {
+        padding: 10px 20px;
+      }
+
+      .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .order-card {
+        background: var(--beige);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 15px;
+        display: flex;
+        gap: 15px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .order-card:active {
+        transform: scale(0.98);
+      }
+
+      .order-img {
+        width: 80px;
+        height: 100px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #eee;
+      }
+
+      .order-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .order-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .order-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .order-id {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .order-date {
+        font-size: 11px;
+        color: #888;
+      }
+
+      .status-badge {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+
+      .status-badge.ongoing {
+        background: var(--sage);
+        color: var(--white);
+      }
+
+      .status-badge.completed {
+        background: #2e8c4a;
+        color: var(--white);
+      }
+
+      .order-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .order-price {
+        font-size: 15px;
+        font-weight: 800;
+      }
+
+      .view-detail-hint {
+        font-size: 11px;
+        font-weight: 700;
+        color: #bbb;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      /* Empty State */
+      .empty-state {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 60px;
+      }
+
+      .empty-state i {
+        font-size: 60px;
+        color: var(--border-color);
+        margin-bottom: 15px;
+      }
+
+      .empty-state p {
+        font-size: 16px;
+        color: #777;
+        font-weight: 600;
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <nav class="navbar">
+      <i class="bx bx-arrow-back" style="font-size: 24px; cursor: pointer;" onclick="history.back()"></i>
+      <span class="nav-title">My Orders</span>
+      <i class="bx bx-search" style="font-size: 24px;"></i>
+    </nav>
+
+    <div class="tabs-container">
+      <div class="tab-btn active" data-tab="ongoing">Ongoing</div>
+      <div class="tab-btn" data-tab="history">History</div>
+    </div>
+
+    <main class="orders-container">
+      
+      <!-- Ongoing List -->
+      <div class="order-list" id="ongoingList">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- History List (Hidden) -->
+      <div class="order-list" id="historyList" style="display: none;">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState">
+        <i class='bx bx-shopping-bag'></i>
+        <p>No orders to show here.</p>
+      </div>
+
+    </main>
+
+    <!-- Footer Container -->
+    <div id="footerContainer"></div>
+
+    <!-- Bottom Nav Container -->
+    <div id="bottomNavContainer"></div>
+    <script src="./mock-db.js"></script>
+    <script>
+      // Authentication Guard
+      if (!localStorage.getItem('monthrob_token')) {
+        window.location.href = './login.html';
+      }
+
+      // Tab Switching
+      const tabs = document.querySelectorAll('.tab-btn');
+      const ongoingList = document.getElementById('ongoingList');
+      const historyList = document.getElementById('historyList');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          // Switch views
+          const view = tab.getAttribute('data-tab');
+          if (view === 'ongoing') {
+            ongoingList.style.display = 'flex';
+            historyList.style.display = 'none';
+          } else {
+            ongoingList.style.display = 'none';
+            historyList.style.display = 'flex';
+          }
+        });
+      });
+
+      // Fetch Nav
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const orders = await monthrob_DB.get('orders');
+          
+          if (!orders || orders.length === 0) {
+            document.getElementById('emptyState').style.display = 'flex';
+            document.getElementById('ongoingList').style.display = 'none';
+            document.getElementById('historyList').style.display = 'none';
+            return;
+          }
+
+          const ongoingList = document.getElementById('ongoingList');
+          const historyList = document.getElementById('historyList');
+          ongoingList.innerHTML = '';
+          historyList.innerHTML = '';
+
+          orders.forEach(order => {
+            const firstItem = order.items && order.items.length > 0 ? order.items[0] : { name: 'Unknown Item', price: 0 };
+            const date = new Date(order.date || Date.now()).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: '2-digit' });
+            
+            const card = document.createElement('div');
+            card.className = 'order-card';
+            card.onclick = () => window.location.href = `order-detail.html?id=${order.id}`;
+            card.innerHTML = `
+              <div class="order-img">
+                <img src="${firstItem.image || '../assets/test_product/ChatGPT Image Mar 18, 2026, 01_43_11 PM.png'}" alt="Item">
+              </div>
+              <div class="order-info">
+                <div class="order-top">
+                  <div>
+                    <div class="order-id">#${order.id}</div>
+                    <div style="font-size: 12px; font-weight: 600; color: #555; margin-top: 2px;">${firstItem.name}</div>
+                    <div class="order-date">${date}</div>
+                  </div>
+                  <div class="status-badge ${order.status === 'Delivered' ? 'completed' : 'ongoing'}">${order.status}</div>
+                </div>
+                <div class="order-bottom">
+                  <div class="order-price">Rs. ${order.total.toLocaleString()}</div>
+                  <div class="view-detail-hint">Details <i class='bx bx-chevron-right'></i></div>
+                </div>
+              </div>
+            `;
+
+            const historyStatuses = ['Delivered', 'Cancelled', 'Returned'];
+            if (!historyStatuses.includes(order.status)) {
+              ongoingList.appendChild(card);
+            } else {
+              historyList.appendChild(card);
+            }
+          });
+
+          // Initial Tab Visibility
+          if (ongoingList.children.length === 0) {
+            ongoingList.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">No ongoing orders.</p>';
+          }
+          if (historyList.children.length === 0) {
+            historyList.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">No previous orders.</p>';
+          }
+
+        } catch (err) { console.error('Orders Load Error:', err); }
+
+        // --- Fetch Nav ---
+        loadComponent('./navbar.html', 'bottomNavContainer', () => {
+          setTimeout(() => {
+            const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const profileTab = document.getElementById('nav-profile');
+            if (profileTab) profileTab.classList.add('active');
+          }, 50);
+        });
+        loadComponent('./footer.html', 'footerContainer');
+      });
+
+      async function loadComponent(url, containerId, callback) {
+        try {
+          const res = await fetch(url);
+          const html = await res.text();
+          const container = document.getElementById(containerId);
+          if (container) {
+            container.innerHTML = html;
+            container.querySelectorAll('script').forEach(s => {
+              const ns = document.createElement('script');
+              ns.textContent = s.textContent;
+              document.body.appendChild(ns);
+            });
+            if (callback) callback(html);
+          }
+        } catch (err) { console.error(`Error loading component ${url}:`, err); }
+      }
+    </script>
+  </body>
+</html>
+
+
+
+
+

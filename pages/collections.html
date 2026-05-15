@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Collections | monthrob.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --black: #0F0F0F;
+            --white: #FFFFFF;
+            --beige: #F5F5F0;
+            --border: #E8E8E8;
+            --transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--white); overflow-x: hidden; }
+
+        /* Header Styling Managed by Component */
+
+        /* --- GALLERY CONTAINER --- */
+        .collections-hero {
+            padding: 140px 40px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 8vw, 84px);
+            font-weight: 900;
+            letter-spacing: -4px;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 60px;
+            animation: slideUp 0.8s var(--transition);
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .collections-grid { grid-template-columns: 1fr; }
+            .collections-hero { padding: 100px 20px 40px; }
+            .hero-title { letter-spacing: -2px; }
+        }
+
+        /* --- THE LIVING CARD --- */
+        .collection-card {
+            position: relative;
+            height: 550px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #eee;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .collection-card:hover {
+            transform: scale(0.985);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+        }
+
+        .card-image-stack {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .stack-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out, transform 4s linear;
+            transform: scale(1.1);
+        }
+
+        .stack-img.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            transition: padding var(--transition);
+        }
+
+        .col-info h3 {
+            font-size: 36px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+        }
+
+        .col-info p {
+            font-size: 14px;
+            opacity: 0.85;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .view-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: transform var(--transition), background var(--transition);
+        }
+
+        .collection-card:hover .view-btn {
+            transform: rotate(-45deg);
+            background: var(--beige);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Top Navigation (Dynamic) -->
+    <div id="topNavContainer"></div>
+
+    <main class="collections-hero">
+        <header style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+             <h1 class="hero-title">Our<br>Collections</h1>
+        </header>
+        
+        <div class="collections-grid" id="collectionsGrid">
+            <!-- Cards Injected Here -->
+        </div>
+    </main>
+
+    <div id="footerContainer"></div>
+
+    <script src="./mock-db.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('collectionsGrid');
+            
+            try {
+                // 1. Fetch Data
+                const [collections, products] = await Promise.all([
+                    ZG_DB.get('collections'),
+                    ZG_DB.get('products')
+                ]);
+
+                if (!collections || collections.length === 0) {
+                    grid.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">No brand collections found.</p>';
+                    return;
+                }
+
+                // 2. Render Cards
+                grid.innerHTML = collections.map(col => {
+                    // Find products linked to this collection
+                    const colProducts = products.filter(p => p.collectionId === col._id && p.media && p.media.length > 0);
+                    
+                    // Extract all unique images from these products
+                    let images = [];
+                    colProducts.forEach(p => {
+                        p.media.forEach(m => {
+                            if (m.type === 'image') images.push(m.url);
+                        });
+                    });
+
+                    // Remove duplicates
+                    images = [...new Set(images)];
+
+                    // Fallback image
+                    if (images.length === 0) {
+                        images.push('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1974&auto=format&fit=crop');
+                    }
+
+                    return `
+                        <div class="collection-card" onclick="window.location.href='shop.html?collectionId=${col._id}'">
+                            <div class="card-image-stack">
+                                ${images.slice(0, 5).map((url, idx) => `
+                                    <img src="${url}" class="stack-img ${idx === 0 ? 'active' : ''}" alt="${col.name}">
+                                `).join('')}
+                            </div>
+                            <div class="card-overlay">
+                                <div class="col-info">
+                                    <p>${colProducts.length} Pieces</p>
+                                    <h3>${col.name}</h3>
+                                </div>
+                                <div class="view-btn">
+                                    <i class='bx bx-right-arrow-alt'></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // 3. Initialize Rotation
+                initRotation();
+
+                // 4. Load Site Components
+                await Promise.all([
+                    injectComponent('topNavContainer', './top-navbar.html'),
+                    loadFooter()
+                ]);
+
+            } catch (err) {
+                console.error('Gallery Load Error:', err);
+                grid.innerHTML = '<p>Something went wrong. Please try again.</p>';
+            }
+        });
+
+        async function injectComponent(id, url) {
+            const container = document.getElementById(id);
+            if(!container) return;
+            try {
+                const res = await fetch(url);
+                container.innerHTML = await res.text();
+                container.querySelectorAll('script').forEach(s => {
+                    const n = document.createElement('script'); n.textContent = s.textContent; document.body.appendChild(n);
+                });
+            } catch(e) { console.warn(`Component ${id} Inject Failed`); }
+        }
+
+        function initRotation() {
+            document.querySelectorAll('.collection-card').forEach(card => {
+                const images = card.querySelectorAll('.stack-img');
+                if (images.length <= 1) return;
+
+                let index = 0;
+                setInterval(() => {
+                    images[index].classList.remove('active');
+                    index = (index + 1) % images.length;
+                    images[index].classList.add('active');
+                }, 4000);
+            });
+        }
+
+        async function loadFooter() {
+            const container = document.getElementById('footerContainer');
+            if (container) {
+                const res = await fetch('./footer.html');
+                container.innerHTML = await res.text();
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+

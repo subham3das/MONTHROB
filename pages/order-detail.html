@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Details | monthrob.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --beige: #F5F5F0;
+        --black: #0F0F0F;
+        --white: #FFFFFF;
+        --gray: #F9F9F9;
+        --sage: #7B8C7C;
+        --border-color: #E2E2E2;
+        --transition: 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--white);
+        color: var(--black);
+        padding-bottom: 100px;
+      }
+
+      /* --- NAVBAR --- */
+      .navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px;
+        background: rgba(245, 245, 220, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .nav-title {
+        font-weight: 800;
+        font-size: 18px;
+      }
+
+      /* --- CONTENT --- */
+      .container {
+        margin-top: 80px;
+        padding: 20px;
+      }
+
+      .status-banner {
+        background: var(--black);
+        color: var(--white);
+        padding: 20px;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .status-banner h2 {
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .status-banner p {
+        font-size: 12px;
+        opacity: 0.7;
+      }
+
+      .card {
+        background: var(--beige);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .card-title {
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #888;
+      }
+
+      .address-info p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #444;
+      }
+
+      /* Item List */
+      .order-items {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .order-item {
+        display: flex;
+        gap: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .item-img {
+        width: 60px;
+        height: 75px;
+        border-radius: 8px;
+        background: #eee;
+        overflow: hidden;
+      }
+
+      .item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .item-info {
+        flex: 1;
+      }
+
+      .item-info h4 {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .item-info p {
+        font-size: 11px;
+        color: #888;
+      }
+
+      .item-price {
+        font-size: 14px;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      /* Payment Summary */
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .summary-row.total {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid var(--border-color);
+        font-weight: 900;
+        font-size: 18px;
+      }
+
+      .btn-reorder {
+        width: 100%;
+        background: var(--black);
+        color: var(--white);
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      .btn-cancel {
+        width: 100%;
+        background: none;
+        color: #e74c3c;
+        padding: 16px;
+        border: 1px solid rgba(231, 76, 60, 0.2);
+        border-radius: 12px;
+        font-weight: 700;
+        margin-top: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-cancel:hover {
+        background: rgba(231, 76, 60, 0.05);
+        border-color: #e74c3c;
+      }
+
+      /* Hidden State */
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <nav class="navbar">
+      <i class="bx bx-arrow-back" style="font-size: 24px; cursor: pointer;" onclick="history.back()"></i>
+      <span class="nav-title">Order Details</span>
+      <i class="bx bx-dots-vertical-rounded" style="font-size: 24px; opacity: 0;"></i>
+    </nav>
+
+    <main class="container">
+      
+      <div class="status-banner">
+        <div>
+          <h2>Loading Status...</h2>
+          <p>Please wait...</p>
+        </div>
+        <i class="bx bx-loader-alt bx-spin" style="font-size: 32px;"></i>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Shipping Address</div>
+        <div class="address-info">
+          <p><strong>Loading...</strong></p>
+          <p>...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Order Items</div>
+        <div class="order-items">
+          <!-- Items populated by JS -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Payment Summary</div>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>Rs. 0</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>Rs. 0</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax</span>
+          <span>Rs. 0</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total Payment</span>
+          <span>Rs. 0</span>
+        </div>
+      </div>
+
+      <button class="btn-reorder">Reorder Items</button>
+      <button class="btn-cancel" id="btnCancel" onclick="cancelOrder()">Cancel Order</button>
+
+    </main>
+
+    <!-- Footer Container -->
+    <div id="footerContainer"></div>
+
+    <!-- Bottom Nav Container -->
+    <div id="bottomNavContainer"></div>
+    <script src="./mock-db.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        if (!orderId) {
+          window.location.href = 'all-orders.html';
+          return;
+        }
+
+        try {
+          const order = await monthrob_DB.getItem('orders', orderId);
+
+          if (!order) {
+            alert("Order not found!");
+            window.location.href = 'all-orders.html';
+            return;
+          }
+
+          // Populate Basic Info
+          document.querySelector('.nav-title').innerText = `Order #${order.id}`;
+          
+          const banner = document.querySelector('.status-banner');
+          banner.querySelector('h2').innerText = order.status;
+          
+          // Set cancellation restriction: Allow only if Pending
+          const cancelBtn = document.getElementById('btnCancel');
+          const cancellableStatuses = ['Pending'];
+          if (!cancellableStatuses.includes(order.status)) {
+             cancelBtn.classList.add('hidden');
+          }
+
+          if (order.status === 'Confirmed') {
+              banner.style.background = 'var(--black)';
+              banner.querySelector('i').className = 'bx bxs-check-shield';
+              banner.querySelector('p').innerText = 'Your order is confirmed and being prepared';
+          } else if (order.status === 'Shipped') {
+              banner.style.background = 'var(--sage)';
+              banner.querySelector('i').className = 'bx bxs-truck';
+              banner.querySelector('p').innerText = 'Your order is on the way!';
+          } else if(order.status === 'Delivered') {
+              banner.style.background = '#2e8c4a';
+              banner.querySelector('i').className = 'bx bxs-check-circle';
+              banner.querySelector('p').innerText = 'Successfully delivered';
+          } else if (order.status === 'Cancelled') {
+              banner.style.background = '#e74c3c';
+              banner.querySelector('i').className = 'bx bx-x-circle';
+              banner.querySelector('p').innerText = 'Order was cancelled';
+          } else {
+              // Pending
+              banner.style.background = 'var(--black)';
+              banner.querySelector('i').className = 'bx bxs-package';
+              banner.querySelector('p').innerText = 'Preparing your items';
+          }
+
+          // Shipping Address
+          if (order.shippingAddress) {
+            const addrDiv = document.querySelector('.address-info');
+            addrDiv.innerHTML = `
+              <p><strong>${order.customer}</strong></p>
+              <p>${order.shippingAddress.street}</p>
+              <p>${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zip}</p>
+              <p>${order.shippingAddress.country}</p>
+            `;
+          }
+
+          // Items
+          const itemsContainer = document.querySelector('.order-items');
+          itemsContainer.innerHTML = '';
+          order.items.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'order-item';
+            div.innerHTML = `
+              <div class="item-img">
+                <img src="${item.image || '../assets/test_product/ChatGPT Image Mar 18, 2026, 01_43_11 PM.png'}" alt="Product">
+              </div>
+              <div class="item-info">
+                <h4>${item.name}</h4>
+                <p>Color: ${item.color} | Size: ${item.size}</p>
+                <p>Qty: ${item.qty}</p>
+              </div>
+              <div class="item-price">Rs. ${item.price.toLocaleString()}</div>
+            `;
+            itemsContainer.appendChild(div);
+          });
+
+          // Summary
+          const subtotal = order.items.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+          const rows = document.querySelectorAll('.card:last-of-type .summary-row');
+          rows[0].querySelectorAll('span')[1].innerText = `Rs. ${subtotal.toLocaleString()}`;
+          rows[3].querySelectorAll('span')[1].innerText = `Rs. ${order.total.toLocaleString()}`;
+
+          // Tracking Link
+          if (order.trackingLink && order.trackingLink !== '#') {
+              const trackBtn = document.createElement('button');
+              trackBtn.className = 'btn-reorder';
+              trackBtn.style.background = 'var(--sage)';
+              trackBtn.style.marginBottom = '15px';
+              trackBtn.innerHTML = `<i class='bx bx-map-pin'></i> Track Package`;
+              trackBtn.onclick = () => window.open(order.trackingLink, '_blank');
+              
+              const main = document.querySelector('main');
+              const cancelBtn = document.getElementById('btnCancel');
+              main.insertBefore(trackBtn, cancelBtn);
+          }
+
+          window.currentOrderId = order._id; // Store MongoDB ID for cancel action
+
+        } catch (err) { console.error('Order Detail Error:', err); }
+
+        loadComponent('./navbar.html', 'bottomNavContainer');
+        loadComponent('./footer.html', 'footerContainer');
+      });
+
+      async function cancelOrder() {
+        if (!window.currentOrderId) return;
+        const confirmed = confirm("Are you sure you want to cancel this order?");
+        if (confirmed) {
+          try {
+            await monthrob_DB.updateItem('orders', window.currentOrderId, { status: 'Cancelled' });
+            location.reload();
+          } catch (err) { alert("Failed to cancel order."); }
+        }
+      }
+
+      async function loadComponent(url, containerId) {
+        try {
+          const res = await fetch(url);
+          const html = await res.text();
+          const container = document.getElementById(containerId);
+          if (container) {
+            container.innerHTML = html;
+            container.querySelectorAll('script').forEach(s => {
+              const ns = document.createElement('script');
+              ns.textContent = s.textContent;
+              document.body.appendChild(ns);
+            });
+          }
+        } catch (err) { console.error(`Error loading component ${url}:`, err); }
+      }
+    </script>
+  </body>
+</html>
+
+
+
+
+

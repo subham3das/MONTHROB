@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account | monthrob.in</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --beige: #F5F5F0;
+      --black: #0F0F0F;
+      --white: #FFFFFF;
+      --gray: #F9F9F9;
+      --sage: #7B8C7C;
+      --border-color: #E2E2E2;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Outfit", sans-serif;
+      background-color: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .logo-area {
+      margin-bottom: 40px;
+    }
+
+    .logo-area h1 {
+      text-transform: lowercase;
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .auth-card {
+      background: var(--beige);
+      border: 1.5px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+    }
+
+    .auth-card h2 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: #888;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus {
+      border-color: var(--black);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: left;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+
+    .checkbox-group input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--black);
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .checkbox-group label {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .auth-footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .auth-footer a {
+      color: var(--black);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .home-back {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      font-size: 24px;
+      color: var(--black);
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="./home.html" class="home-back"><i class='bx bx-chevron-left'></i></a>
+
+  <div class="auth-container">
+    <div class="logo-area">
+      <h1><span style="color: #E53935;">mon</span>throb</h1>
+    </div>
+
+    <div class="auth-card">
+      <h2>Join the Collection</h2>
+      <p class="subtitle">Experience streetwear luxury</p>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="name" placeholder="Alex Sterling" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="name@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="Min. 8 characters" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" required>
+          <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
+        </div>
+
+        <button type="submit" class="btn-primary" id="signupBtn">Complete Registration</button>
+      </form>
+    </div>
+
+    <div class="auth-footer">
+      Already part of the movement? <a href="login.html">Sign In</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('signupBtn');
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      btn.innerText = 'Creating account...';
+      btn.disabled = true;
+
+      try {
+        const apiBase = 'https://monbackend.vercel.app/api';
+        console.log('Attempting registration to:', apiBase + '/auth/register');
+
+        const res = await fetch(`${apiBase}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert('Account created successfully! Please sign in.');
+          window.location.href = 'login.html';
+        } else {
+          alert(data.error || 'Registration failed');
+        }
+      } catch (err) {
+        alert('Network error connecting to server');
+      } finally {
+        btn.innerText = 'Complete Registration';
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy | Monthrob</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --black: #0d0d0d;
+        --white: #ffffff;
+        --gray: #f5f5f5;
+        --border: #eeeeee;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Outfit', sans-serif;
+      }
+
+      body {
+        background-color: var(--white);
+        color: var(--black);
+        line-height: 1.6;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .policy-container {
+        max-width: 900px;
+        margin: 120px auto 80px;
+        padding: 0 30px;
+      }
+
+      .policy-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .policy-header h1 {
+        font-size: 48px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -1px;
+        margin-bottom: 10px;
+      }
+
+      .policy-header p {
+        color: #888;
+        font-size: 16px;
+      }
+
+      .policy-content section {
+        margin-bottom: 40px;
+      }
+
+      .policy-content h2 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid var(--black);
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+
+      .policy-content p {
+        margin-bottom: 15px;
+        color: #444;
+        font-size: 16px;
+      }
+
+      .policy-content ul {
+        margin-bottom: 15px;
+        padding-left: 20px;
+      }
+
+      .policy-content li {
+        margin-bottom: 8px;
+        color: #444;
+      }
+
+      @media (max-width: 768px) {
+        .policy-header h1 {
+          font-size: 32px;
+        }
+        .policy-container {
+          margin-top: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navbar Placeholder -->
+    <div id="topNavContainer"></div>
+
+    <main class="policy-container">
+      <div class="policy-header">
+        <h1>Privacy Policy</h1>
+        <p>Last updated: May 3, 2026</p>
+      </div>
+
+      <div class="policy-content">
+        <section>
+          <h2>Introduction</h2>
+          <p>Welcome to Monthrob. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
+        </section>
+
+        <section>
+          <h2>Information We Collect</h2>
+          <p>We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:</p>
+          <ul>
+            <li><strong>Identity Data:</strong> includes first name, last name, username or similar identifier.</li>
+            <li><strong>Contact Data:</strong> includes billing address, delivery address, email address and telephone numbers.</li>
+            <li><strong>Financial Data:</strong> includes payment card details (processed through secure third-party gateways).</li>
+            <li><strong>Transaction Data:</strong> includes details about payments to and from you and other details of products you have purchased from us.</li>
+            <li><strong>Technical Data:</strong> includes internet protocol (IP) address, your login data, browser type and version, and platform.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>How We Use Your Data</h2>
+          <p>We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:</p>
+          <ul>
+            <li>To register you as a new customer.</li>
+            <li>To process and deliver your order.</li>
+            <li>To manage our relationship with you.</li>
+            <li>To improve our website, products/services, marketing or customer relationships.</li>
+            <li>To send you newsletter and marketing communications (if you have opted in).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Third-Party Disclosure</h2>
+          <p>We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our users, so long as those parties agree to keep this information confidential.</p>
+        </section>
+
+        <section>
+          <h2>Data Security</h2>
+          <p>We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.</p>
+        </section>
+
+        <section>
+          <h2>Cookies</h2>
+          <p>You can set your browser to refuse all or some browser cookies, or to alert you when websites set or access cookies. If you disable or refuse cookies, please note that some parts of this website may become inaccessible or not function properly.</p>
+        </section>
+
+        <section>
+          <h2>Contact Us</h2>
+          <p>If there are any questions regarding this privacy policy, you may contact us using the information below:</p>
+          <p><strong>Email:</strong> contactmonthrob@gmail.com</p>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footerContainer"></div>
+
+    <script>
+      async function injectComponent(id, url) {
+        try {
+          const resp = await fetch(url);
+          const html = await resp.text();
+          const container = document.getElementById(id);
+          container.innerHTML = html;
+
+          // Re-run scripts in injected content
+          const scripts = container.querySelectorAll('script');
+          scripts.forEach((s) => {
+            const n = document.createElement('script');
+            n.textContent = s.textContent;
+            document.body.appendChild(n);
+          });
+        } catch (e) {
+          console.error('Failed to inject ' + url, e);
+        }
+      }
+
+      window.onload = async () => {
+        await Promise.all([
+          injectComponent('topNavContainer', './top-navbar.html'),
+          injectComponent('footerContainer', './footer.html')
+        ]);
+        document.body.style.opacity = '1';
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>monthrob | Premium Streetwear</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <style>  
+    :root {
+      --beige: #F5F5F0;
+      --black: #0D0D0D;
+      --white: #FFFFFF;
+      --gray: #F4F4F4;
+      --sage: #7B8C7C;
+      --border-color: #E2E2E2;
+      --transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    }
+
+    body {
+      background-color: var(--white);
+      overflow-x: hidden;
+      color: var(--black);
+    }
+
+    /* Header Styling Managed by Component */
+
+    /* --- HERO SECTION (The Background) --- */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      background-color: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      /* Keep it fixed so content slides over it */
+      top: 0;
+      left: 0;
+      z-index: 1;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out, transform 8s linear;
+      transform: scale(1.1);
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 12vw;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin: 0;
+      color: var(--white);
+      line-height: 0.8;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero p {
+      margin-top: 20px;
+      letter-spacing: 5px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+    }
+
+    /* --- MAIN CONTENT (The Sliding Card) --- */
+    .main-card {
+      position: relative;
+      z-index: 2;
+      margin-top: 100vh;
+      background: var(--white);
+      border-radius: 40px 40px 0 0;
+      padding: 20px 0 0 0;
+      /* Softer shadow for white-on-white visibility */
+      box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Circular Collections */
+    .circles-section {
+      position: sticky;
+      top: 60px;
+      /* This matches the scrolled height of the navbar */
+      background: var(--white);
+      /* Ensures products don't bleed behind it when scrolling */
+      padding: 15px 20px;
+      z-index: 999;
+      /* Just below the navbar (1000) */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      /* Optional: adds a clean line when docked */
+    }
+
+    .scroll-wrapper {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      /* Hide scrollbar for IE, Edge and Firefox */
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .scroll-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .circle-item {
+      min-width: 75px;
+      /* Matches circle width to ensure text centering */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .circle-item:active {
+      transform: scale(0.95);
+    }
+
+    .circle {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: var(--gray);
+      margin-bottom: 10px;
+      border: 2px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .circle-item.active .circle {
+      border-color: var(--black);
+      box-shadow: 0 0 0 3px rgba(13, 13, 13, 0.15);
+    }
+
+    .circle-item.active span {
+      color: var(--black);
+      font-weight: 800;
+    }
+
+    .circle img {
+      width: 60%;
+      opacity: 0.8;
+    }
+
+    .circle-item span {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #555;
+      width: 100%;
+      transition: color 0.3s ease;
+      /* Ensures text aligns with the item width */
+    }
+
+    /* Collection section fade transition */
+    .collection-section {
+      transition: opacity 0.4s ease, max-height 0.5s ease;
+      overflow: hidden;
+    }
+
+    .collection-section.hidden {
+      opacity: 0;
+      max-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      pointer-events: none;
+    }
+
+    /* Horizontal Product Scroll */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0px 30px 15px;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .see-more {
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #999;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .product-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 30px 5px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .product-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Optimized Small Product Cards */
+    .product-card {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      min-width: 170px;
+      width: 170px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-img-placeholder {
+      width: 100%;
+      height: 220px;
+      background-color: #d8d8d8;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      transition: background-color 0.4s ease;
+      overflow: hidden;
+    }
+
+    .product-card:hover .card-img-placeholder {
+      background-color: #d0d0d0;
+    }
+
+    .card-img-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .card-img-placeholder img {
+      transform: scale(1.08);
+      /* smooth zoom in effect */
+    }
+
+    @media (max-width: 768px) {
+      .product-scroll {
+        padding: 0 15px 5px;
+        gap: 10px;
+      }
+      .product-card {
+        min-width: calc(50% - 5px);
+        width: calc(50% - 5px);
+        padding: 6px;
+      }
+      .card-img-placeholder {
+        height: 180px;
+      }
+      .section-header {
+        padding: 0 15px 10px;
+      }
+      .section-header h2 {
+        font-size: 18px;
+      }
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 4px;
+      padding: 0 4px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .discount-badge {
+      background: rgba(46, 140, 74, 0.1);
+      color: #2e8c4a;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .card-desc {
+      font-size: 10px;
+      color: #999;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: auto;
+      padding: 0 4px 4px 4px;
+    }
+
+    .card-price {
+      background: var(--beige);
+      color: var(--black);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .card-mrp {
+      font-size: 10px;
+      color: #999;
+      text-decoration: line-through;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+
+    .action-cart {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      background: var(--white);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      z-index: 5;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid #eee;
+    }
+
+    .product-card:hover .action-cart {
+      transform: scale(1.15) rotate(-5deg);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* --- SHINING BRAND LOADER --- */
+    #brand-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--white);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .shimmer-text {
+      text-transform: lowercase;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 12px;
+      color: rgba(0, 0, 0, 0.1);
+      background: linear-gradient(120deg, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.1) 60%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 2s infinite linear;
+    }
+
+    @keyframes shine {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 90px;
+      right: 25px;
+      width: 48px;
+      height: 48px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      cursor: pointer;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .scroll-top-btn.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .scroll-top-btn:hover {
+      background: var(--sage);
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    .cat-bubble img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* --- DONATION JAR (HOME BANNER) --- */
+    .live-jar-bar {
+      margin: 40px 30px;
+      padding: 15px 20px;
+      background: var(--black);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--white);
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .live-jar-bar:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .live-jar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .live-jar-header .left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .live-jar-header i {
+      color: var(--sage);
+      font-size: 18px;
+    }
+
+    .live-jar-progress {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .live-jar-fill {
+      width: 35%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--sage), #fff);
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      animation: pulse-bar 2s infinite alternate;
+    }
+
+    @keyframes pulse-bar {
+      0% {
+        opacity: 0.8;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Unified Top Navigation (Dynamic with Hero Threshold) -->
+  <div id="topNavContainer"></div>
+
+  <section class="hero">
+    <div class="hero-slider content-ready">
+      ...
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content content-ready">
+      <h1><span style="color: #E53935;">mon</span>throb</h1>
+      <p>AESTHETICS DEFINED</p>
+    </div>
+  </section>
+
+  <main class="main-card">
+    <section class="circles-section">
+      <div class="scroll-wrapper content-ready">
+        <!-- Rendered Categories -->
+      </div>
+    </section>
+
+    <div id="collectionShowcase">
+      <!-- Dynamic Collections will be injected here -->
+    </div>
+
+    <button id="scrollTopBtn" class="scroll-top-btn">
+      <i class='bx bx-up-arrow-alt'></i>
+    </button>
+
+    <div id="footerContainer"></div>
+    <div id="bottomNavContainer"></div>
+    <div id="cartAnimContainer"></div>
+  </main>
+
+  <script src="./mock-db.js"></script>
+  <script>
+    // Navigation Interactions handled by top-navbar component
+
+    // --- High-Performance Dynamic Rendering ---
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        // Parallel Fetch for "Fast as Hell" speed
+        const topNavContainer = document.getElementById('topNavContainer');
+        if (topNavContainer) {
+          topNavContainer.setAttribute('data-threshold', Math.floor(window.innerHeight * 0.9));
+        }
+
+        const results = await Promise.allSettled([
+          monthrob_DB.get('showcase'),
+          monthrob_DB.get('categories'),
+          monthrob_DB.get('collections'),
+          monthrob_DB.get('products'),
+          injectComponent('topNavContainer', './top-navbar.html'),
+          loadNavbar(),
+          loadFooter()
+        ]);
+
+        const sc = results[0].status === 'fulfilled' ? results[0].value : null;
+        const cats = results[1].status === 'fulfilled' ? results[1].value : [];
+        const collections = results[2].status === 'fulfilled' ? results[2].value : [];
+        const products = results[3].status === 'fulfilled' ? results[3].value : [];
+
+        const _sc = sc || {};
+        const _cats = Array.isArray(cats) ? cats : [];
+        const _collections = Array.isArray(collections) ? collections : [];
+        const _products = Array.isArray(products) ? products : [];
+
+        // 1. Render Hero
+        const heroContent = document.querySelector('.hero-content');
+        if (_sc.title) heroContent.querySelector('h1').innerHTML = _sc.title.replace(' ', '<br>');
+        if (_sc.subtitle) heroContent.querySelector('p').innerText = _sc.subtitle;
+
+        const heroSlider = document.querySelector('.hero-slider');
+        if (_sc.slides && _sc.slides.length) {
+          heroSlider.innerHTML = sc.slides.map((s, i) => {
+            const link = s.linkType === 'product' ? `product.html?id=${s.linkId}` : (s.linkType === 'category' ? `shop.html?cat=${s.linkId}` : '#');
+            const mediaTag = s.type === 'video'
+              ? `<video src="${s.url}" autoplay muted loop class="hero-slide ${i === 0 ? 'active' : ''}" style="object-fit:cover;"></video>`
+              : `<div class="hero-slide ${i === 0 ? 'active' : ''}" style="background-image: url('${s.url}')"></div>`;
+            return `<a href="${link}">${mediaTag}</a>`;
+          }).join('');
+
+          // Auto-slide logic
+          let currentSlide = 0;
+          const slides = document.querySelectorAll('.hero-slide');
+          if (slides.length > 1) {
+            setInterval(() => {
+              slides[currentSlide].classList.remove('active');
+              currentSlide = (currentSlide + 1) % slides.length;
+              slides[currentSlide].classList.add('active');
+            }, 5000);
+          }
+        }
+
+        // 2. Render Categories Grouped by Collection
+        const scrollWrapper = document.querySelector('.scroll-wrapper');
+        scrollWrapper.innerHTML = '';
+
+        // Add "All" circle first
+        renderAllCircle();
+
+        if (_collections.length > 0) {
+          _collections.forEach(col => {
+            const colCats = _cats.filter(c => c.collectionId == col._id);
+            colCats.forEach(cat => renderCircle(cat, col.name));
+          });
+        }
+
+        // 3. Render Dynamic Collections
+        const showcase = document.getElementById('collectionShowcase');
+        showcase.innerHTML = '';
+
+        if (_collections.length > 0) {
+          _collections.forEach((col, idx) => {
+            const colCategoryNames = _cats.filter(c => c.collectionId == col._id).map(c => c.name);
+            const colProducts = _products.filter(p => colCategoryNames.includes(p.category) && p.status === 'Active').slice(0, 8);
+
+            if (colProducts.length > 0) {
+              const section = document.createElement('section');
+              section.className = 'collection-section';
+              section.setAttribute('data-collection', col.name);
+              section.style.marginTop = '40px';
+              section.innerHTML = `
+                <div class="section-header">
+                  <h2>${col.name}</h2>
+                  <a href="shop.html?collection=${encodeURIComponent(col.name)}" class="see-more">See All</a>
+                </div>
+                <div class="product-scroll content-ready">
+                  ${colProducts.map(p => {
+                const firstMedia = p.media && p.media.length > 0 ? p.media[0] : { url: '', type: 'image' };
+                let mediaHtml = `<img src="${firstMedia.url}" alt="${p.name}">`;
+                if (firstMedia.type === 'video') {
+                  mediaHtml = `<video src="${firstMedia.url}" autoplay muted loop playsinline></video>`;
+                }
+
+                const hasDiscount = p.mrp && p.mrp > p.sellingPrice;
+                const discountPercent = hasDiscount ? Math.round(((p.mrp - p.sellingPrice) / p.mrp) * 100) : 0;
+                const discountHtml = hasDiscount ? `<div class="discount-badge">${discountPercent}%</div>` : '';
+                const mrpHtml = hasDiscount ? `<span class="card-mrp">Rs. ${p.mrp}</span>` : '';
+
+                const outOfStockSizes = p.outOfStockSizes || [];
+                const sizesHtml = p.sizes && p.sizes.length > 0 
+                  ? `<div class="card-sizes">
+                      ${p.sizes.map(s => `
+                        <span class="size-tag ${outOfStockSizes.includes(s) ? 'out-of-stock' : ''}">${s}</span>
+                      `).join('')}
+                    </div>` 
+                  : '';
+
+                return `
+                      <div class="product-card" onclick="window.location.href='product.html?id=${p._id}'">
+                        <div class="action-cart" data-id="${p._id}" data-name="${p.name.replace(/"/g, '&quot;')}" data-price="${p.sellingPrice}" data-image="${firstMedia.url}"><i class='bx bx-shopping-bag'></i></div>
+                        <div class="card-img-placeholder">${mediaHtml}</div>
+                        <div class="card-title-row">
+                            <h3 class="card-title">${p.name}</h3>
+                            ${discountHtml}
+                        </div>
+                        <p class="card-desc" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">${p.descriptionShort || ''}</p>
+                        <div class="card-bottom">
+                          <div class="card-price">Rs. ${p.sellingPrice}</div>
+                          ${mrpHtml}
+                        </div>
+                      </div>
+                    `;
+              }).join('')}
+                </div>
+              `;
+              showcase.appendChild(section);
+
+              // Inject the sleek Live Bar after the very first collection row
+              if (idx === 0) {
+                const jarSection = document.createElement('div');
+                jarSection.innerHTML = `
+                  <div class="live-jar-bar" onclick="window.location.href='checkout.html'">
+                    <div class="live-jar-header">
+                      <div class="left"><i class='bx bxs-heart'></i> The Collective Jar</div>
+                      <div>35% Funded</div>
+                    </div>
+                    <div class="live-jar-progress">
+                      <div class="live-jar-fill"></div>
+                    </div>
+                  </div>
+                `;
+                showcase.appendChild(jarSection);
+              }
+            }
+          });
+        }
+
+      } catch (err) {
+        console.error('Speed Fetch Error:', err);
+      }
+    });
+
+    // Scroll-to-Top Logic
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.add('active');
+      } else {
+        scrollTopBtn.classList.remove('active');
+      }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function renderAllCircle() {
+      const wrapper = document.querySelector('.scroll-wrapper');
+      const div = document.createElement('div');
+      div.className = 'circle-item active';
+      div.setAttribute('data-filter', 'all');
+      div.onclick = () => filterByCollection('all', div);
+
+      div.innerHTML = `
+        <div class="circle" style="display:flex; align-items:center; justify-content:center; overflow:hidden; background: var(--black); color: var(--white); font-weight:800; font-size:13px;">ALL</div>
+        <span>All</span>
+      `;
+      wrapper.appendChild(div);
+    }
+
+    function renderCircle(cat, label) {
+      const wrapper = document.querySelector('.scroll-wrapper');
+      const div = document.createElement('div');
+      div.className = 'circle-item';
+      div.setAttribute('data-filter', label);
+      div.onclick = () => filterByCollection(label, div);
+
+      const thumbHtml = cat.thumbnail
+        ? `<img src="${cat.thumbnail}" alt="${cat.name}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" onerror="this.style.display='none'; this.parentElement.innerText='${cat.name.charAt(0).toUpperCase()}'">`
+        : cat.name.charAt(0).toUpperCase();
+
+      div.innerHTML = `
+        <div class="circle" style="display:flex; align-items:center; justify-content:center; overflow:hidden;">${thumbHtml}</div>
+        <span>${cat.name}</span>
+        <small style="font-size: 8px; color: #aaa; margin-top: 2px; display:block;">${label}</small>
+      `;
+      wrapper.appendChild(div);
+    }
+
+    function filterByCollection(collectionName, activeEl) {
+      // Update active circle
+      document.querySelectorAll('.circle-item').forEach(c => c.classList.remove('active'));
+      activeEl.classList.add('active');
+
+      // Filter collection sections
+      const sections = document.querySelectorAll('.collection-section');
+      const jarBar = document.querySelector('.live-jar-bar');
+
+      if (collectionName === 'all') {
+        sections.forEach(s => s.classList.remove('hidden'));
+        if (jarBar) jarBar.closest('div').style.display = '';
+      } else {
+        sections.forEach(s => {
+          if (s.getAttribute('data-collection') === collectionName) {
+            s.classList.remove('hidden');
+          } else {
+            s.classList.add('hidden');
+          }
+        });
+        if (jarBar) jarBar.closest('div').style.display = 'none';
+      }
+    }
+
+    async function injectComponent(id, url) {
+      const container = document.getElementById(id);
+      if (!container) return;
+      try {
+        const res = await fetch(url);
+        container.innerHTML = await res.text();
+        container.querySelectorAll('script').forEach(s => {
+          const n = document.createElement('script'); n.textContent = s.textContent; document.body.appendChild(n);
+        });
+      } catch (e) { console.warn(`Component ${id} Inject Failed`); }
+    }
+
+    async function loadNavbar() {
+      const res = await fetch('./navbar.html');
+      const html = await res.text();
+      const container = document.getElementById('bottomNavContainer');
+      if (container) {
+        container.innerHTML = html;
+        container.querySelectorAll('script').forEach(s => {
+          const ns = document.createElement('script'); ns.textContent = s.textContent; document.body.appendChild(ns);
+        });
+      }
+    }
+
+    async function loadFooter() {
+      const res = await fetch('./footer.html');
+      const html = await res.text();
+      const container = document.getElementById('footerContainer');
+      if (container) {
+        container.innerHTML = html;
+        container.querySelectorAll('script').forEach(s => {
+          const ns = document.createElement('script'); ns.textContent = s.textContent; document.body.appendChild(ns);
+        });
+      }
+    }
+
+    const cartAnimContainer = document.getElementById('cartAnimContainer');
+    if (cartAnimContainer) {
+      fetch('./cart-animation.html').then(r => r.text()).then(html => {
+        cartAnimContainer.innerHTML = html;
+        const scripts = cartAnimContainer.querySelectorAll('script');
+        scripts.forEach(s => {
+          const newS = document.createElement('script');
+          newS.textContent = s.textContent;
+          document.body.appendChild(newS);
+        });
+      });
+    }
+
+    // Add-to-Cart logic
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.action-cart');
+      if (!btn) return;
+      e.stopPropagation(); e.preventDefault();
+
+      // Read embedded product properties
+      const cartItem = {
+        productId: btn.getAttribute('data-id'),
+        name: btn.getAttribute('data-name'),
+        price: Number(btn.getAttribute('data-price') || 0),
+        image: btn.getAttribute('data-image'),
+        color: 'Black',
+        size: 'M',
+        qty: 1,
+        addedAt: new Date().toISOString()
+      };
+
+      // Push securely to Local Cache
+      let cart = JSON.parse(localStorage.getItem('monthrob_cart')) || [];
+      cart.push(cartItem);
+      localStorage.setItem('monthrob_cart', JSON.stringify(cart));
+      if (window.triggerAddToCartAnimation) {
+        const card = btn.closest('.product-card');
+        const productImg = card.querySelector('.card-img-placeholder img');
+        if (productImg) {
+          const tempId = 'cart-origin-' + Math.random().toString(36).substr(2, 9);
+          productImg.id = tempId;
+          window.triggerAddToCartAnimation('#' + tempId, '#nav-cart');
+          const icon = btn.querySelector('i');
+          icon.className = 'bx bx-check';
+          btn.style.background = '#2e8c4a'; btn.style.color = '#fff';
+          setTimeout(() => {
+            icon.className = 'bx bx-shopping-bag';
+            btn.style.background = ''; btn.style.color = '';
+            productImg.removeAttribute('id');
+          }, 2000);
+        }
+      }
+    }, true);
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+

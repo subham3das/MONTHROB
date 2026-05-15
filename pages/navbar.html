@@ -1,0 +1,95 @@
+<style>
+  /* Mobile Bottom Nav */
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    display: none; /* Hidden by default on desktop */
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid var(--border-color, #E2E2E2);
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  @media (max-width: 768px) {
+    .mobile-bottom-nav {
+      display: flex;
+    }
+    body {
+      padding-bottom: 70px;
+    }
+  }
+
+  .mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--black, #0d0d0d);
+    text-decoration: none;
+    font-size: 10px;
+    gap: 4px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .mobile-bottom-nav .nav-item.active {
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .mobile-bottom-nav .nav-item i {
+    font-size: 24px;
+  }
+</style>
+
+<div class="mobile-bottom-nav" id="mobileBottomNav">
+  <a href="home.html" class="nav-item" id="nav-home">
+    <i class='bx bx-home-alt'></i>
+    <span>Home</span>
+  </a>
+  <a href="shop.html" class="nav-item" id="nav-shop">
+    <i class='bx bx-store'></i>
+    <span>Shop</span>
+  </a>
+  <a href="cart.html" class="nav-item" id="nav-cart">
+    <i class='bx bx-shopping-bag'></i>
+    <span>Cart</span>
+  </a>
+  <a href="profile.html" class="nav-item" id="nav-profile">
+    <i class='bx bx-user'></i>
+    <span>Profile</span>
+  </a>
+</div>
+
+<script>
+  // Active state logic
+  (function() {
+    const currentPath = window.location.pathname;
+    const items = document.querySelectorAll('.mobile-bottom-nav .nav-item');
+    let hasActive = false;
+    
+    items.forEach(item => {
+      item.classList.remove('active');
+      if (currentPath.includes(item.getAttribute('href'))) {
+        item.classList.add('active');
+        hasActive = true;
+      }
+    });
+
+    if (!hasActive && (currentPath.endsWith('/') || currentPath.endsWith('index.html'))) {
+      const homeNav = document.getElementById('nav-home');
+      if (homeNav) homeNav.classList.add('active');
+    }
+  })();
+</script>
+
+
+
+
+

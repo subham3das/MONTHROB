@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | monthrob.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --beige: #F5F5F0;
+        --black: #0F0F0F;
+        --white: #FFFFFF;
+        --gray: #F9F9F9;
+        --sage: #7B8C7C;
+        --border-color: #E2E2E2;
+        --transition: 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--white);
+        color: var(--black);
+        overflow-x: hidden;
+        padding-bottom: 100px; /* Space for mobile nav */
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* --- HEADER --- */
+      .header {
+        padding: 40px 25px 30px;
+        background: var(--white);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .avatar-container {
+        position: relative;
+        margin-bottom: 15px;
+      }
+
+      .avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid var(--border-color);
+        padding: 3px;
+        object-fit: cover;
+      }
+
+      .badge-logo {
+        position: absolute;
+        bottom: 5px;
+        right: 0;
+        background: var(--black);
+        color: var(--white);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        border: 2px solid var(--white);
+      }
+
+      .profile-info h1 {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
+
+      .member-status {
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #888;
+      }
+
+      /* --- TRACK ORDER SECTION --- */
+      .section-container {
+        padding: 0 20px;
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .track-card {
+        background: var(--beige);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .track-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .order-id {
+        font-size: 13px;
+        font-weight: 600;
+        color: #777;
+      }
+
+      .status-tag {
+        background: var(--black);
+        color: var(--white);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .track-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        padding-top: 20px;
+      }
+
+      .track-steps::before {
+        content: "";
+        position: absolute;
+        top: 28px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--border-color);
+        z-index: 1;
+      }
+
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        z-index: 2;
+        width: 25%;
+      }
+
+      .step-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--border-color);
+        border: 4px solid var(--beige);
+      }
+
+      .step.completed .step-dot {
+        background: var(--black);
+      }
+
+      .step.active .step-dot {
+        background: var(--black);
+        box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+      }
+
+      .step span {
+        font-size: 10px;
+        font-weight: 700;
+        color: #999;
+        text-align: center;
+      }
+
+      .step.active span, .step.completed span {
+        color: var(--black);
+      }
+
+      .btn-cancel-mini {
+        align-self: flex-start;
+        margin-top: 10px;
+        padding: 6px 14px;
+        background: none;
+        border: 1px solid rgba(231, 76, 60, 0.3);
+        color: #e74c3c;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .btn-cancel-mini:hover {
+        background: rgba(231, 76, 60, 0.05);
+        border-color: #e74c3c;
+      }
+      .recent-order {
+        background: var(--beige);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 15px;
+        display: flex;
+        gap: 15px;
+      }
+
+      .order-thumb {
+        width: 70px;
+        height: 70px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .order-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .order-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .order-info h3 {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .order-info p {
+        font-size: 12px;
+        color: #777;
+      }
+
+      .order-action {
+        display: flex;
+        align-items: center;
+        padding-right: 5px;
+      }
+
+      /* --- MENU LIST --- */
+      .menu-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .menu-item {
+        background: var(--beige);
+        border: 1px solid var(--border-color);
+        padding: 15px 20px;
+        border-radius: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.2s;
+      }
+
+      .menu-item:active {
+        transform: scale(0.98);
+      }
+
+      .menu-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .menu-left i {
+        font-size: 22px;
+        color: var(--black);
+      }
+
+      .menu-left span {
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .menu-item i.bx-chevron-right {
+        color: #ccc;
+      }
+
+      /* Special Red Menu */
+      .menu-item.logout {
+        margin-top: 10px;
+        border-color: rgba(231, 76, 60, 0.2);
+      }
+      .menu-item.logout span, .menu-item.logout i {
+        color: #e74c3c;
+      }
+
+      /* --- MODAL --- */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        padding: 20px;
+      }
+
+      .modal-content {
+        background: var(--white);
+        width: 100%;
+        max-width: 500px;
+        border-radius: 24px;
+        padding: 30px;
+        position: relative;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .modal-header h2 {
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      .close-modal {
+        font-size: 24px;
+        cursor: pointer;
+        color: #888;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 12px;
+        border: 1.5px solid var(--border-color);
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: var(--transition);
+      }
+
+      .form-group input:focus {
+        border-color: var(--black);
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <!-- Profile Header -->
+    <header class="header">
+      <div class="avatar-container" onclick="openEditProfile()" style="cursor: pointer;">
+        <img id="userAvatarMain" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dddddd'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.83 0-5.34-1.54-6.71-3.83.04-2.22 4.47-3.44 6.71-3.44s6.67 1.22 6.71 3.44C17.34 18.46 14.83 20 12 20z'/%3E%3C/svg%3E" class="avatar" alt="User Skeleton" style="background:#f5f5f5;">
+        <div class="badge-logo" title="Edit Profile"><i class="bx bx-edit-alt"></i></div>
+      </div>
+      <div class="profile-info">
+        <h1 id="userNameDisplay">...</h1>
+        <p class="member-status" id="userPhoneDisplay">...</p>
+      </div>
+    </header>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal-overlay" id="editProfileModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Edit Profile</h2>
+          <i class="bx bx-x close-modal" onclick="closeEditModal()"></i>
+        </div>
+        <form id="profileForm" onsubmit="updateProfile(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="editName" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="editEmail" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" id="editPhone" required>
+          </div>
+          <button type="submit" class="btn-submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Track Order -->
+    <section class="section-container" style="display: none;" id="trackSection">
+      <div class="section-title">Track Order</div>
+      <div class="track-card" id="trackCard" onclick="window.location.href='order-detail.html'" style="cursor: pointer;">
+        <div class="track-header" style="align-items: flex-start;">
+          <div>
+            <span class="order-id">#...</span>
+            <div class="track-product-name" style="font-size: 12px; font-weight: 600; color: #666; margin-top: 4px;">...</div>
+          </div>
+          <span class="status-tag">...</span>
+        </div>
+        <div class="track-steps">
+          <div class="step">
+            <div class="step-dot"></div>
+            <span>Placed</span>
+          </div>
+          <div class="step">
+            <div class="step-dot"></div>
+            <span>Confirmed</span>
+          </div>
+          <div class="step">
+            <div class="step-dot"></div>
+            <span>Shipped</span>
+          </div>
+          <div class="step">
+            <div class="step-dot"></div>
+            <span>Delivered</span>
+          </div>
+        </div>
+        <button class="btn-cancel-mini" onclick="event.stopPropagation(); cancelMainOrder(this)">Cancel Order</button>
+      </div>
+    </section>
+
+    <!-- Recent Order -->
+    <section class="section-container" style="display: none;" id="recentSection">
+      <div class="section-title">Recent Order <span><i class='bx bx-history' style="color: #ccc; font-size: 14px;"></i></span></div>
+      <div class="recent-order" onclick="window.location.href='all-orders.html'" style="cursor: pointer;">
+        <div class="order-thumb">
+          <img src="" alt="Item">
+        </div>
+        <div class="order-info">
+          <h3>Loading...</h3>
+          <p>...</p>
+        </div>
+        <div class="order-action">
+          <i class='bx bx-chevron-right' style="font-size: 24px; color: #ccc;"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Menu -->
+    <section class="section-container">
+      <div class="section-title">Account Settings</div>
+      <div class="menu-list">
+        <div class="menu-item" onclick="window.location.href='all-orders.html'">
+          <div class="menu-left">
+            <i class='bx bx-shopping-bag'></i>
+            <span>All My Orders</span>
+          </div>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+        <div class="menu-item" onclick="window.location.href='address-book.html'">
+          <div class="menu-left">
+            <i class='bx bx-map'></i>
+            <span>Shipping Address</span>
+          </div>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+        <div class="menu-item">
+          <div class="menu-left">
+            <i class='bx bx-credit-card'></i>
+            <span>Payment Methods</span>
+          </div>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+        <div class="menu-item">
+          <div class="menu-left">
+            <i class='bx bx-bell'></i>
+            <span>Notifications</span>
+          </div>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+        <div class="menu-item logout" onclick="localStorage.removeItem('monthrob_token'); localStorage.removeItem('monthrob_user'); window.location.href='./login.html'">
+          <div class="menu-left">
+            <i class='bx bx-log-out'></i>
+            <span>Logout Account</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Container -->
+    <div id="footerContainer"></div>
+
+    <!-- Bottom Nav Container -->
+    <div id="bottomNavContainer"></div>
+    <script src="./mock-db.js"></script>
+    <script>
+      // Authentication Guard
+      if (!localStorage.getItem('monthrob_token')) {
+        window.location.href = './login.html';
+      }
+
+      let currentUser = null;
+
+      async function cancelMainOrder(btn) {
+        const orderId = btn.getAttribute('data-id');
+        if (!orderId) return;
+
+        if (confirm("Are you sure you want to cancel this order?")) {
+          try {
+            const updated = await monthrob_DB.updateItem('orders', orderId, { status: 'Cancelled' });
+            if (updated) {
+               const card = btn.closest('.track-card');
+               card.style.opacity = "0.5";
+               card.style.pointerEvents = "none";
+               btn.innerText = "Cancelled";
+               const statusTag = card.querySelector('.status-tag');
+               if (statusTag) statusTag.innerText = 'Cancelled';
+               alert(`Order #${orderId} has been cancelled.`);
+            }
+          } catch (err) { alert('Failed to cancel order.'); }
+        }
+      }
+
+      function openEditProfile() {
+        if (!currentUser) return;
+        document.getElementById('editName').value = currentUser.name || '';
+        document.getElementById('editEmail').value = currentUser.email || '';
+        document.getElementById('editPhone').value = currentUser.phone || '';
+        document.getElementById('editProfileModal').style.display = 'flex';
+      }
+
+      function closeEditModal() {
+        document.getElementById('editProfileModal').style.display = 'none';
+      }
+
+      async function updateProfile(e) {
+        e.preventDefault();
+        const data = {
+          name: document.getElementById('editName').value,
+          email: document.getElementById('editEmail').value,
+          phone: document.getElementById('editPhone').value
+        };
+
+        try {
+          const res = await monthrob_DB.updateUser(data);
+          if (res) {
+            currentUser = res;
+            localStorage.setItem('monthrob_user', JSON.stringify(res));
+            renderProfile();
+            closeEditModal();
+          } else {
+            alert('Failed to update profile');
+          }
+        } catch (err) { alert('Error updating profile'); }
+      }
+
+      function renderProfile() {
+        if (!currentUser) return;
+        document.getElementById('userNameDisplay').innerText = currentUser.name;
+        document.getElementById('userPhoneDisplay').innerText = currentUser.phone || '+1 234 567 890';
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        // --- Fetch Real User Data ---
+        try {
+          currentUser = await monthrob_DB.getUser();
+          renderProfile();
+
+          // Fetch Latest Trackable Order
+          const orders = await monthrob_DB.get('orders');
+          const latestOrder = orders.length > 0 ? orders[0] : null;
+
+          // Allow tracking for any active order that is not terminal
+          const historyStatuses = ['Delivered', 'Cancelled', 'Returned'];
+          const trackableOrder = orders.find(o => !historyStatuses.includes(o.status));
+          const trackSection = document.getElementById('trackCard').closest('.section-container');
+
+          if (trackableOrder) {
+            trackSection.style.display = 'block';
+            document.querySelector('.order-id').innerText = `#${trackableOrder.id}`;
+            const trackItemName = trackableOrder.items && trackableOrder.items.length > 0 ? trackableOrder.items[0].name : 'Unknown Item';
+            document.querySelector('.track-product-name').innerText = trackItemName;
+            document.querySelector('.status-tag').innerText = trackableOrder.status;
+            
+            const cancelBtn = document.querySelector('.btn-cancel-mini');
+            if (cancelBtn) {
+              cancelBtn.setAttribute('data-id', trackableOrder.id);
+              // Allow cancellation only when strictly in Pending state
+              if (trackableOrder.status !== 'Pending') {
+                cancelBtn.style.display = 'none';
+              } else {
+                cancelBtn.style.display = 'block';
+              }
+            }
+
+            // Set Steps
+            const steps = document.querySelectorAll('.track-steps .step');
+            steps.forEach(s => { s.classList.remove('active', 'completed'); });
+            
+            const statusMap = { 'Pending': 0, 'Processing': 1, 'Confirmed': 1, 'Shipped': 2, 'In-transit': 2, 'Delivered': 3 };
+            const currentIdx = statusMap[trackableOrder.status] ?? -1;
+            
+            if (currentIdx !== -1) {
+              steps.forEach((s, idx) => {
+                if (idx < currentIdx) s.classList.add('completed');
+                if (idx === currentIdx) s.classList.add('active');
+              });
+            }
+
+          } else {
+            trackSection.style.display = 'none';
+          }
+
+          // 2. Recent Order Section (Always show latest)
+          const recentSection = document.getElementById('recentSection');
+          if (latestOrder) {
+            recentSection.style.display = 'block';
+            document.querySelector('.recent-order h3').innerText = latestOrder.items[0].name;
+            document.querySelector('.recent-order p').innerText = `Status: ${latestOrder.status} • Rs. ${latestOrder.total.toLocaleString()}`;
+            if (latestOrder.items[0].image) {
+              document.querySelector('.order-thumb img').src = latestOrder.items[0].image;
+            } else {
+              document.querySelector('.order-thumb img').src = '../assets/test_product/ChatGPT Image Mar 18, 2026, 01_43_11 PM.png';
+            }
+          } else {
+             recentSection.style.display = 'none';
+          }
+
+        } catch (err) { console.error('Profile Load Error:', err); }
+
+        // --- Components ---
+        loadComponent('./navbar.html', 'bottomNavContainer', (html) => {
+          setTimeout(() => {
+            const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const profileTab = document.getElementById('nav-profile');
+            if (profileTab) profileTab.classList.add('active');
+          }, 50);
+        });
+        loadComponent('./footer.html', 'footerContainer');
+      });
+
+      async function loadComponent(url, containerId, callback) {
+        try {
+          const res = await fetch(url);
+          const html = await res.text();
+          const container = document.getElementById(containerId);
+          if (container) {
+            container.innerHTML = html;
+            container.querySelectorAll('script').forEach(s => {
+              const ns = document.createElement('script');
+              ns.textContent = s.textContent;
+              document.body.appendChild(ns);
+            });
+            if (callback) callback(html);
+          }
+        } catch (err) { console.error(`Error loading component ${url}:`, err); }
+      }
+    </script>
+  </body>
+</html>
+
+
+
+
+
