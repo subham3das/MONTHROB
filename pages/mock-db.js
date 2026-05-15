@@ -4,10 +4,10 @@
  */
 
 // FOR SEPARATE DEPLOYMENT: Replace this with your ACTUAL Vercel backend URL
-const PROD_BACKEND_URL = 'https://monbackend.vercel.app/api'; 
+const PROD_BACKEND_URL = 'https://monbackend.vercel.app'; 
 
-// Always use the live production backend
-const API_BASE = PROD_BACKEND_URL; 
+// Always use the live production backend (appends /api for routing)
+const API_BASE = PROD_BACKEND_URL + '/api'; 
 
 
 const monthrob_DB = {
@@ -60,12 +60,12 @@ Object.assign(monthrob_DB, {
             // For admins, we don't auto-redirect here anymore.
             // We let the page-level 'validateAdminSession' handle it.
             console.log('[monthrob_DB] Admin 401 caught. Delegating to guard.');
-        } else {
-            localStorage.removeItem('monthrob_token');
-            localStorage.removeItem('monthrob_user');
-            if (!window.location.pathname.includes('login.html') && !window.location.pathname.includes('createaccount.html')) {
-                window.location.href = './login.html';
-            }
+        }
+
+        if (!isAdmin) {
+            // For customers, we no longer auto-redirect on 401.
+            // This allows guest browsing. The profile pages have their own guards.
+            console.log('[monthrob_DB] Guest or Expired session. No auto-redirect.');
         }
         return null;
       }
